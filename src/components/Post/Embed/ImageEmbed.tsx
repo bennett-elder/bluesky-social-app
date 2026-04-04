@@ -9,8 +9,10 @@ import {
 import {Image} from 'expo-image'
 
 import {useLightboxControls} from '#/state/lightbox'
+import {useAltTextFirstEnabled} from '#/state/preferences'
 import {type Dimensions} from '#/view/com/lightbox/ImageViewing/@types'
 import {atoms as a} from '#/alf'
+import {AltTextImage} from '#/components/images/AltTextImage'
 import {AutoSizedImage} from '#/components/images/AutoSizedImage'
 import {ImageLayoutGrid} from '#/components/images/ImageLayoutGrid'
 import {PostEmbedViewContext} from '#/components/Post/Embed/types'
@@ -25,8 +27,41 @@ export function ImageEmbed({
 }) {
   const {openLightbox} = useLightboxControls()
   const {images} = embed.view
+  const altTextFirstEnabled = useAltTextFirstEnabled()
 
   if (images.length > 0) {
+    // Alt-text first mode: show alt text before image
+    if (altTextFirstEnabled) {
+      return (
+        <View style={[a.mt_sm, rest.style]}>
+          {images.map((image, index) => (
+            <AltTextImage
+              key={index}
+              image={image}
+              index={index}
+              onPress={() => {
+                // Open lightbox when tapping to view image
+                const items = images.map(img => ({
+                  uri: img.fullsize,
+                  thumbUri: img.thumb,
+                  alt: img.alt,
+                  dimensions: img.aspectRatio ?? null,
+                  type: 'image' as const,
+                  thumbRect: null,
+                  thumbDimensions: null,
+                }))
+                openLightbox({
+                  images: items,
+                  index,
+                })
+              }}
+            />
+          ))}
+        </View>
+      )
+    }
+
+    // Classic mode: show images directly
     const items = images.map(img => ({
       uri: img.fullsize,
       thumbUri: img.thumb,

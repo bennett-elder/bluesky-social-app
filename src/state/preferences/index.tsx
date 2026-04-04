@@ -1,3 +1,4 @@
+import {Provider as AltTextFirstProvider} from './alt-text-first'
 import {Provider as AltTextRequiredProvider} from './alt-text-required'
 import {Provider as AutoplayProvider} from './autoplay'
 import {Provider as DisableHapticsProvider} from './disable-haptics'
@@ -11,6 +12,10 @@ import {Provider as SubtitlesProvider} from './subtitles'
 import {Provider as TrendingSettingsProvider} from './trending'
 import {Provider as UsedStarterPacksProvider} from './used-starter-packs'
 
+export {
+  useAltTextFirstEnabled,
+  useSetAltTextFirstEnabled,
+} from './alt-text-first'
 export {
   useRequireAltTextEnabled,
   useSetRequireAltTextEnabled,
@@ -29,27 +34,29 @@ export {useSetSubtitlesEnabled, useSubtitlesEnabled} from './subtitles'
 export function Provider({children}: React.PropsWithChildren<{}>) {
   return (
     <LanguagesProvider>
-      <AltTextRequiredProvider>
-        <LargeAltBadgeProvider>
-          <ExternalEmbedsProvider>
-            <HiddenPostsProvider>
-              <InAppBrowserProvider>
-                <DisableHapticsProvider>
-                  <AutoplayProvider>
-                    <UsedStarterPacksProvider>
-                      <SubtitlesProvider>
-                        <TrendingSettingsProvider>
-                          <KawaiiProvider>{children}</KawaiiProvider>
-                        </TrendingSettingsProvider>
-                      </SubtitlesProvider>
-                    </UsedStarterPacksProvider>
-                  </AutoplayProvider>
-                </DisableHapticsProvider>
-              </InAppBrowserProvider>
-            </HiddenPostsProvider>
-          </ExternalEmbedsProvider>
-        </LargeAltBadgeProvider>
-      </AltTextRequiredProvider>
+      <AltTextFirstProvider>
+        <AltTextRequiredProvider>
+          <LargeAltBadgeProvider>
+            <ExternalEmbedsProvider>
+              <HiddenPostsProvider>
+                <InAppBrowserProvider>
+                  <DisableHapticsProvider>
+                    <AutoplayProvider>
+                      <UsedStarterPacksProvider>
+                        <SubtitlesProvider>
+                          <TrendingSettingsProvider>
+                            <KawaiiProvider>{children}</KawaiiProvider>
+                          </TrendingSettingsProvider>
+                        </SubtitlesProvider>
+                      </UsedStarterPacksProvider>
+                    </AutoplayProvider>
+                  </DisableHapticsProvider>
+                </InAppBrowserProvider>
+              </HiddenPostsProvider>
+            </ExternalEmbedsProvider>
+          </LargeAltBadgeProvider>
+        </AltTextRequiredProvider>
+      </AltTextFirstProvider>
     </LanguagesProvider>
   )
 }

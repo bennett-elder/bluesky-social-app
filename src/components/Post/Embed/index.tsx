@@ -84,42 +84,21 @@ function MediaEmbed({
 }: CommonProps & {
   embed: TEmbed
 }) {
-  switch (embed.type) {
-    case 'images': {
-      return (
-        <ContentHider
-          modui={rest.moderation?.ui('contentMedia')}
-          activeStyle={[a.mt_sm]}>
-          <ImageEmbed embed={embed} {...rest} />
-        </ContentHider>
-      )
-    }
-    case 'link': {
-      return (
-        <ContentHider
-          modui={rest.moderation?.ui('contentMedia')}
-          activeStyle={[a.mt_sm]}>
-          <ExternalEmbed
-            link={embed.view.external}
-            onOpen={rest.onOpen}
-            style={[a.mt_sm, rest.style]}
-          />
-        </ContentHider>
-      )
-    }
-    case 'video': {
-      return (
-        <ContentHider
-          modui={rest.moderation?.ui('contentMedia')}
-          activeStyle={[a.mt_sm]}>
-          <VideoEmbed embed={embed.view} />
-        </ContentHider>
-      )
-    }
-    default: {
-      return null
-    }
-  }
+  return (
+    <ContentHider
+      modui={rest.moderation?.ui('contentMedia')}
+      activeStyle={[a.mt_sm]}>
+      {embed.type === 'images' && <ImageEmbed embed={embed} {...rest} />}
+      {embed.type === 'link' && (
+        <ExternalEmbed
+          link={embed.view.external}
+          onOpen={rest.onOpen}
+          style={[a.mt_sm, rest.style]}
+        />
+      )}
+      {embed.type === 'video' && <VideoEmbed embed={embed.view} />}
+    </ContentHider>
+  )
 }
 
 function RecordEmbed({
