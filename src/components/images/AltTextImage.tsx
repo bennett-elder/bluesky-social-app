@@ -51,18 +51,24 @@ export function AltTextImage({image, index, onPress}: AltTextImageProps) {
           a.overflow_hidden,
           t.atoms.bg_contrast_25,
         ]}>
-        <View style={[a.relative]}>
+        <Pressable
+          accessibilityRole="button"
+          onPress={handlePress}
+          style={[a.relative]}>
           <Image
             source={{uri: image.fullsize || image.thumb}}
             style={[a.w_full, {minHeight: 200}]}
             contentFit="contain"
             accessible={true}
             accessibilityLabel={image.alt}
-            accessibilityHint={_(msg`Tap to hide image`)}
+            accessibilityHint={_(msg`Tap to view full size`)}
             loading="lazy"
           />
           <Pressable
-            onPress={handleClose}
+            onPress={e => {
+              e.stopPropagation()
+              handleClose()
+            }}
             style={[
               a.absolute,
               a.top_0,
@@ -77,7 +83,7 @@ export function AltTextImage({image, index, onPress}: AltTextImageProps) {
             accessibilityRole="button">
             <CloseIcon fill={t.atoms.text.color} width={16} />
           </Pressable>
-        </View>
+        </Pressable>
         {hasAlt && (
           <View style={[a.p_sm, t.atoms.bg_contrast_25]}>
             <Text style={[a.text_sm, t.atoms.text_contrast_high]}>
