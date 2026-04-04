@@ -4,7 +4,12 @@ import {Trans} from '@lingui/react/macro'
 import {type NativeStackScreenProps} from '@react-navigation/native-stack'
 
 import {type CommonNavigatorParams} from '#/lib/routes/types'
-import {useAutoplayDisabled, useSetAutoplayDisabled} from '#/state/preferences'
+import {
+  useAltTextFirstEnabled,
+  useAutoplayDisabled,
+  useSetAltTextFirstEnabled,
+  useSetAutoplayDisabled,
+} from '#/state/preferences'
 import {
   useInAppBrowser,
   useSetInAppBrowser,
@@ -20,6 +25,7 @@ import {Bubbles_Stroke2_Corner2_Rounded as BubblesIcon} from '#/components/icons
 import {CircleInfo_Stroke2_Corner0_Rounded as CircleInfo} from '#/components/icons/CircleInfo'
 import {Hashtag_Stroke2_Corner0_Rounded as HashtagIcon} from '#/components/icons/Hashtag'
 import {Home_Stroke2_Corner2_Rounded as HomeIcon} from '#/components/icons/Home'
+import {Image_Stroke2_Corner0_Rounded as ImageIcon} from '#/components/icons/Image'
 import {Macintosh_Stroke2_Corner2_Rounded as MacintoshIcon} from '#/components/icons/Macintosh'
 import {Play_Stroke2_Corner2_Rounded as PlayIcon} from '#/components/icons/Play'
 import {Trending2_Stroke2_Corner2_Rounded as Graph} from '#/components/icons/Trending'
@@ -37,6 +43,8 @@ export function ContentAndMediaSettingsScreen({}: Props) {
   const ax = useAnalytics()
   const autoplayDisabledPref = useAutoplayDisabled()
   const setAutoplayDisabledPref = useSetAutoplayDisabled()
+  const altTextFirstPref = useAltTextFirstEnabled()
+  const setAltTextFirstPref = useSetAltTextFirstEnabled()
   const inAppBrowserPref = useInAppBrowser()
   const setUseInAppBrowser = useSetInAppBrowser()
   const {enabled: trendingEnabled} = useTrendingConfig()
@@ -122,6 +130,19 @@ export function ContentAndMediaSettingsScreen({}: Props) {
               <SettingsList.ItemIcon icon={PlayIcon} />
               <SettingsList.ItemText>
                 <Trans>Autoplay videos and GIFs</Trans>
+              </SettingsList.ItemText>
+              <Toggle.Platform />
+            </SettingsList.Item>
+          </Toggle.Item>
+          <Toggle.Item
+            name="oops_all_text"
+            label={_(msg`Oops! All text`)}
+            value={altTextFirstPref ?? false}
+            onChange={value => setAltTextFirstPref(value)}>
+            <SettingsList.Item>
+              <SettingsList.ItemIcon icon={ImageIcon} />
+              <SettingsList.ItemText>
+                <Trans>Oops! All text</Trans>
               </SettingsList.ItemText>
               <Toggle.Platform />
             </SettingsList.Item>

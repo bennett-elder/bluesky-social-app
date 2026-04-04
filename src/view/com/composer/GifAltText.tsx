@@ -223,7 +223,6 @@ function AltTextInner({
               isPreferredAltText={true}
               params={params}
               hideAlt
-              style={[{height: 225}]}
             />
           </View>
         </View>

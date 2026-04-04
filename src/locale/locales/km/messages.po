@@ -187,6 +187,11 @@ msgstr ""
 msgid "{0} is not available"
 msgstr ""
 
+#. placeholder {0}: codeToLanguageName( expectedSourceLanguage, langPrefs.appLanguage, )
+#: src/lib/translation/index.tsx:314
+msgid "{0} is not supported by your device."
+msgstr ""
+
 #. placeholder {0}: formatCount(i18n, JOINED_THIS_WEEK)
 #: src/screens/StarterPack/StarterPackLandingScreen.tsx:232
 msgid "{0} joined this week"
@@ -438,6 +443,12 @@ msgstr "{following} កំពុងតាម"
 msgid "{handle} can't be messaged"
 msgstr "{handle} មិនអាចផ្ញើសារបានទេ"
 
+#: src/components/dms/InitiateChatFlow.tsx:805
+#: src/components/dms/InitiateChatFlow.tsx:858
+#: src/components/dms/InitiateChatFlow.tsx:897
+msgid "{handle} can’t be messaged"
+msgstr ""
+
 #: src/features/liveNow/utils.ts:15
 msgid "{hours, plural, one {# hour {minutesString}} other {# hours {minutesString}}}"
 msgstr ""
@@ -558,28 +569,28 @@ msgstr "<0>{0}</0> {1, plural, one {អ្នកកំពុងតាម} other 
 #. Like count display, the <0> tags enclose the number of likes in bold (will never be 0)
 #. placeholder {0}: formatPostStatCount(post.likeCount)
 #. placeholder {1}: post.likeCount
-#: src/screens/PostThread/components/ThreadItemAnchor.tsx:493
+#: src/screens/PostThread/components/ThreadItemAnchor.tsx:486
 msgid "<0>{0}</0> {1, plural, one {like} other {likes}}"
 msgstr ""
 
 #. Quote count display, the <0> tags enclose the number of quotes in bold (will never be 0)
 #. placeholder {0}: formatPostStatCount(post.quoteCount)
 #. placeholder {1}: post.quoteCount
-#: src/screens/PostThread/components/ThreadItemAnchor.tsx:475
+#: src/screens/PostThread/components/ThreadItemAnchor.tsx:468
 msgid "<0>{0}</0> {1, plural, one {quote} other {quotes}}"
 msgstr ""
 
 #. Repost count display, the <0> tags enclose the number of reposts in bold (will never be 0)
 #. placeholder {0}: formatPostStatCount(post.repostCount)
 #. placeholder {1}: post.repostCount
-#: src/screens/PostThread/components/ThreadItemAnchor.tsx:455
+#: src/screens/PostThread/components/ThreadItemAnchor.tsx:448
 msgid "<0>{0}</0> {1, plural, one {repost} other {reposts}}"
 msgstr ""
 
 #. Save count display, the <0> tags enclose the number of saves in bold (will never be 0)
 #. placeholder {0}: formatPostStatCount(post.bookmarkCount)
 #. placeholder {1}: post.bookmarkCount
-#: src/screens/PostThread/components/ThreadItemAnchor.tsx:506
+#: src/screens/PostThread/components/ThreadItemAnchor.tsx:499
 msgid "<0>{0}</0> {1, plural, one {save} other {saves}}"
 msgstr ""
 
@@ -851,8 +862,8 @@ msgstr "បន្ថែមគណនី"
 #: src/view/com/composer/GifAltText.tsx:76
 #: src/view/com/composer/GifAltText.tsx:150
 #: src/view/com/composer/GifAltText.tsx:217
-#: src/view/com/composer/photos/Gallery.tsx:194
-#: src/view/com/composer/photos/Gallery.tsx:241
+#: src/view/com/composer/photos/Gallery.tsx:196
+#: src/view/com/composer/photos/Gallery.tsx:243
 #: src/view/com/composer/photos/ImageAltTextDialog.tsx:95
 #: src/view/com/composer/photos/ImageAltTextDialog.tsx:103
 msgid "Add alt text"
@@ -1156,7 +1167,7 @@ msgstr "បាន​ចូល​ជា @{0} រួច​ហើយ"
 #: src/components/images/Gallery.tsx:120
 #: src/components/Post/Embed/VideoEmbed/GifPresentationControls.tsx:94
 #: src/view/com/composer/GifAltText.tsx:100
-#: src/view/com/composer/photos/Gallery.tsx:212
+#: src/view/com/composer/photos/Gallery.tsx:214
 msgid "ALT"
 msgstr "ជំនួស"
 
@@ -1175,7 +1186,7 @@ msgid "Alt Text"
 msgstr "អត្ថបទជំនួស"
 
 #: src/view/com/composer/GifAltText.tsx:105
-#: src/view/com/composer/photos/Gallery.tsx:124
+#: src/view/com/composer/photos/Gallery.tsx:125
 msgid "Alt text describes images for blind and low-vision users, and helps give context to everyone."
 msgstr "អត្ថបទជំនួសពិពណ៌នារូបភាពសម្រាប់អ្នកប្រើប្រាស់ពិការភ្នែក និងភ្នែកទាប និងជួយផ្តល់បរិបទដល់មនុស្សគ្រប់គ្នា"
 
@@ -1184,6 +1195,11 @@ msgstr "អត្ថបទជំនួសពិពណ៌នារូបភាព
 #: src/view/com/composer/photos/ImageAltTextDialog.tsx:149
 msgid "Alt text will be truncated. {MAX_ALT_TEXT, plural, other {Limit: {0} characters.}}"
 msgstr ""
+
+#: src/screens/Settings/ContentAndMediaSettings.tsx:139
+#: src/screens/Settings/ContentAndMediaSettings.tsx:145
+#~ msgid "Alt-text first display"
+#~ msgstr ""
 
 #. placeholder {0}: currentAccount?.email || '(no email)'
 #: src/screens/Settings/components/DisableEmail2FADialog.tsx:94
@@ -1221,7 +1237,11 @@ msgstr "កំហុសបានកើតឡើងខណៈពេលកំពុ
 msgid "An error occurred while hiding suggestion. {0}"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/index.tsx:149
+#: src/components/Post/Embed/ExternalEmbed/Gif.tsx:49
+msgid "An error occurred while loading the GIF. Please try again later."
+msgstr ""
+
+#: src/components/Post/Embed/VideoEmbed/index.tsx:38
 msgid "An error occurred while loading the video. Please try again later."
 msgstr "កំហុសបានកើតឡើងខណៈពេលកំពុងផ្ទុកវីដេអូ។ សូមព្យាយាមម្តងទៀតនៅពេលក្រោយ"
 
@@ -1277,7 +1297,7 @@ msgstr ""
 msgid "An issue not included in these options"
 msgstr "បញ្ហាដែលមិនត្រូវបានរួមបញ្ចូលនៅក្នុងជម្រើសទាំងនេះ"
 
-#: src/components/dms/dialogs/NewChatDialog.tsx:40
+#: src/components/dms/dialogs/NewChatDialog.tsx:41
 msgid "An issue occurred starting the chat"
 msgstr "បញ្ហាមួយបានកើតឡើងចាប់ផ្តើមការជជែក"
 
@@ -1323,7 +1343,7 @@ msgstr ""
 msgid "Animals"
 msgstr "សត្វ"
 
-#: src/components/Post/Embed/ExternalEmbed/Gif.tsx:95
+#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:206
 msgid "Animated GIF"
 msgstr "GIF ដែលមានចលនា"
 
@@ -1447,12 +1467,12 @@ msgid "Apply Pull Request"
 msgstr ""
 
 #. placeholder {0}: niceDate(i18n, createdAt, 'medium')
-#: src/screens/PostThread/components/ThreadItemAnchor.tsx:627
+#: src/screens/PostThread/components/ThreadItemAnchor.tsx:620
 msgid "Archived from {0}"
 msgstr "បានរក្សាទុកពី {0}"
 
-#: src/screens/PostThread/components/ThreadItemAnchor.tsx:598
-#: src/screens/PostThread/components/ThreadItemAnchor.tsx:636
+#: src/screens/PostThread/components/ThreadItemAnchor.tsx:591
+#: src/screens/PostThread/components/ThreadItemAnchor.tsx:629
 msgid "Archived post"
 msgstr ""
 
@@ -1539,8 +1559,8 @@ msgstr ""
 msgid "Automation Label"
 msgstr ""
 
-#: src/screens/Settings/ContentAndMediaSettings.tsx:118
-#: src/screens/Settings/ContentAndMediaSettings.tsx:124
+#: src/screens/Settings/ContentAndMediaSettings.tsx:126
+#: src/screens/Settings/ContentAndMediaSettings.tsx:132
 msgid "Autoplay videos and GIFs"
 msgstr "ចាក់វីដេអូ និង GIFs ដោយស្វ័យប្រវត្តិ"
 
@@ -1549,6 +1569,9 @@ msgstr "ចាក់វីដេអូ និង GIFs ដោយស្វ័យ�
 msgid "Available"
 msgstr ""
 
+#: src/components/dms/InitiateChatFlow.tsx:485
+#: src/components/dms/InitiateChatFlow.tsx:670
+#: src/components/dms/InitiateChatFlow.tsx:677
 #: src/components/moderation/LabelsOnMeDialog.tsx:334
 #: src/components/moderation/LabelsOnMeDialog.tsx:335
 #: src/screens/Login/ChooseAccountForm.tsx:98
@@ -1607,7 +1630,7 @@ msgstr ""
 msgid "Before you can get notifications for {name}'s posts, you must first verify your email."
 msgstr ""
 
-#: src/components/dms/dialogs/NewChatDialog.tsx:58
+#: src/components/dms/dialogs/NewChatDialog.tsx:66
 #: src/components/dms/MessageProfileButton.tsx:60
 #: src/screens/Messages/ChatList.tsx:376
 #: src/screens/Messages/Conversation.tsx:226
@@ -1694,7 +1717,7 @@ msgstr ""
 msgid "Block user and/or delete this conversation"
 msgstr ""
 
-#: src/components/Post/Embed/index.tsx:186
+#: src/components/Post/Embed/index.tsx:188
 msgid "Blocked"
 msgstr "រារាំង"
 
@@ -1737,7 +1760,7 @@ msgstr "ប្លុក"
 msgid "Bluesky"
 msgstr ""
 
-#: src/screens/PostThread/components/ThreadItemAnchor.tsx:652
+#: src/screens/PostThread/components/ThreadItemAnchor.tsx:645
 msgid "Bluesky cannot confirm the authenticity of the claimed date."
 msgstr "Bluesky មិនអាចបញ្ជាក់ពីភាពត្រឹមត្រូវនៃកាលបរិច្ឆេទដែលបានទាមទារនោះទេ"
 
@@ -1823,20 +1846,20 @@ msgstr ""
 msgid "Browse custom feeds"
 msgstr ""
 
-#: src/components/FeedInterstitials.tsx:641
+#: src/components/FeedInterstitials.tsx:627
 msgid "Browse more accounts"
 msgstr ""
 
-#: src/components/FeedInterstitials.tsx:771
+#: src/components/FeedInterstitials.tsx:757
 msgid "Browse more feeds on the Explore page"
 msgstr "រកមើលព័ត៌មានបន្ថែមនៅលើទំព័ររុករក"
 
-#: src/components/FeedInterstitials.tsx:752
-#: src/components/FeedInterstitials.tsx:755
+#: src/components/FeedInterstitials.tsx:738
+#: src/components/FeedInterstitials.tsx:741
 msgid "Browse more suggestions"
 msgstr "រកមើលការណែនាំបន្ថែម"
 
-#: src/components/FeedInterstitials.tsx:780
+#: src/components/FeedInterstitials.tsx:766
 msgid "Browse more suggestions on the Explore page"
 msgstr "រកមើលការណែនាំបន្ថែមនៅលើទំព័ររុករក"
 
@@ -2285,10 +2308,11 @@ msgstr ""
 #: src/components/dms/AfterReportDialog.tsx:212
 #: src/components/dms/AfterReportDialog.tsx:217
 #: src/components/dms/EmojiPopup.android.tsx:59
+#: src/components/dms/InitiateChatFlow.tsx:510
 #: src/components/NewskieDialog.tsx:169
 #: src/components/NewskieDialog.tsx:175
 #: src/components/Post/Embed/VideoEmbed/GifPresentationControls.tsx:107
-#: src/components/ProgressGuide/FollowDialog.tsx:441
+#: src/components/ProgressGuide/FollowDialog.tsx:445
 #: src/components/StarterPack/Wizard/WizardEditListDialog.tsx:122
 #: src/components/StarterPack/Wizard/WizardEditListDialog.tsx:128
 #: src/components/verification/VerificationsDialog.tsx:146
@@ -2337,6 +2361,11 @@ msgstr ""
 msgid "Close emoji picker"
 msgstr ""
 
+#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:120
+#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:191
+msgid "Close GIF"
+msgstr ""
+
 #: src/components/dialogs/GifSelect.tsx:161
 msgid "Close GIF dialog"
 msgstr "បិទប្រអប់ GIF"
@@ -2359,6 +2388,11 @@ msgstr ""
 #: src/components/Menu/index.tsx:349
 msgid "Close this dialog"
 msgstr "បិទប្រអប់នេះ។"
+
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:133
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:200
+msgid "Close video"
+msgstr ""
 
 #: src/components/WelcomeModal.tsx:217
 msgid "Close welcome modal"
@@ -2521,7 +2555,7 @@ msgstr ""
 msgid "Contacts removed"
 msgstr ""
 
-#: src/screens/Settings/ContentAndMediaSettings.tsx:53
+#: src/screens/Settings/ContentAndMediaSettings.tsx:61
 msgid "Content & Media"
 msgstr "ខ្លឹមសារ និងប្រព័ន្ធផ្សព្វផ្សាយ"
 
@@ -2595,6 +2629,10 @@ msgstr ""
 #: src/screens/PostThread/components/ThreadItemReadMoreUp.tsx:64
 msgid "Continue thread..."
 msgstr "បន្ត​ខ្សែ..."
+
+#: src/components/dms/InitiateChatFlow.tsx:437
+msgid "Continue to group name"
+msgstr ""
 
 #: src/screens/Onboarding/StepInterests/index.tsx:90
 #: src/screens/Onboarding/StepProfile/index.tsx:300
@@ -2805,6 +2843,7 @@ msgstr ""
 #. Text on button to create a new starter pack
 #: src/components/dialogs/StarterPackDialog.tsx:113
 #: src/components/dialogs/StarterPackDialog.tsx:210
+#: src/components/dms/InitiateChatFlow.tsx:446
 #: src/components/StarterPack/ProfileStarterPacks.tsx:329
 msgid "Create"
 msgstr "បង្កើត"
@@ -2873,6 +2912,10 @@ msgstr "បង្កើតរូបតំណាងជំនួសវិញ"
 #: src/components/StarterPack/ProfileStarterPacks.tsx:214
 msgid "Create another"
 msgstr "បង្កើតមួយផ្សេងទៀត"
+
+#: src/components/dms/InitiateChatFlow.tsx:445
+msgid "Create group chat"
+msgstr ""
 
 #: src/components/dialogs/lists/CreateListFromStarterPackDialog.tsx:180
 #: src/components/dialogs/lists/CreateListFromStarterPackDialog.tsx:188
@@ -3090,7 +3133,7 @@ msgstr "លុបបញ្ជីនេះ"
 msgid "Delete this post?"
 msgstr "លុប post នេះ?"
 
-#: src/components/Post/Embed/index.tsx:179
+#: src/components/Post/Embed/index.tsx:181
 msgid "Deleted"
 msgstr "បានលុប់"
 
@@ -3145,7 +3188,7 @@ msgstr ""
 msgid "Developer options"
 msgstr ""
 
-#: src/lib/translation/index.tsx:294
+#: src/lib/translation/index.tsx:303
 msgid "Device failed to translate :("
 msgstr ""
 
@@ -3274,7 +3317,7 @@ msgstr ""
 msgid "Dismiss this section"
 msgstr ""
 
-#: src/components/FeedInterstitials.tsx:445
+#: src/components/FeedInterstitials.tsx:441
 msgid "Dismiss this suggestion"
 msgstr ""
 
@@ -3475,7 +3518,7 @@ msgstr "កែសម្រួលមតិព័ត៌មាន"
 
 #: src/view/com/composer/photos/EditImageDialog.web.tsx:86
 #: src/view/com/composer/photos/EditImageDialog.web.tsx:90
-#: src/view/com/composer/photos/Gallery.tsx:219
+#: src/view/com/composer/photos/Gallery.tsx:221
 msgid "Edit image"
 msgstr "កែរូបភាព"
 
@@ -3665,13 +3708,13 @@ msgstr ""
 msgid "Enable this source only"
 msgstr "បើកដំណើរការប្រភពនេះតែប៉ុណ្ណោះ"
 
-#: src/screens/Settings/ContentAndMediaSettings.tsx:134
-#: src/screens/Settings/ContentAndMediaSettings.tsx:148
+#: src/screens/Settings/ContentAndMediaSettings.tsx:155
+#: src/screens/Settings/ContentAndMediaSettings.tsx:169
 msgid "Enable trending topics"
 msgstr ""
 
-#: src/screens/Settings/ContentAndMediaSettings.tsx:155
-#: src/screens/Settings/ContentAndMediaSettings.tsx:169
+#: src/screens/Settings/ContentAndMediaSettings.tsx:176
+#: src/screens/Settings/ContentAndMediaSettings.tsx:190
 msgid "Enable trending videos in your Discover feed"
 msgstr ""
 
@@ -3746,7 +3789,7 @@ msgstr ""
 msgid "Enter your username and password"
 msgstr "បញ្ចូលឈ្មោះអ្នកប្រើប្រាស់ និងពាក្យសម្ងាត់របស់អ្នក។"
 
-#: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:148
+#: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:150
 msgid "Enters full screen"
 msgstr ""
 
@@ -3900,8 +3943,8 @@ msgstr "នាំចេញទិន្នន័យរបស់ខ្ញុំ"
 msgid "Export My Data"
 msgstr "នាំចេញទិន្នន័យរបស់ខ្ញុំ"
 
-#: src/screens/Settings/ContentAndMediaSettings.tsx:86
-#: src/screens/Settings/ContentAndMediaSettings.tsx:89
+#: src/screens/Settings/ContentAndMediaSettings.tsx:94
+#: src/screens/Settings/ContentAndMediaSettings.tsx:97
 msgid "External media"
 msgstr "ប្រព័ន្ធផ្សព្វផ្សាយខាងក្រៅ"
 
@@ -4323,9 +4366,9 @@ msgid "Find my friends"
 msgstr ""
 
 #. Starter packs suggested to the user for them to follow
-#: src/components/ProgressGuide/FollowDialog.tsx:74
-#: src/components/ProgressGuide/FollowDialog.tsx:82
-#: src/components/ProgressGuide/FollowDialog.tsx:427
+#: src/components/ProgressGuide/FollowDialog.tsx:72
+#: src/components/ProgressGuide/FollowDialog.tsx:80
+#: src/components/ProgressGuide/FollowDialog.tsx:431
 #: src/screens/Onboarding/StepSuggestedStarterpacks/index.tsx:43
 msgid "Find people to follow"
 msgstr ""
@@ -4512,8 +4555,8 @@ msgstr "កំពុងតាម {0}"
 msgid "Following {handle}"
 msgstr ""
 
-#: src/screens/Settings/ContentAndMediaSettings.tsx:78
-#: src/screens/Settings/ContentAndMediaSettings.tsx:81
+#: src/screens/Settings/ContentAndMediaSettings.tsx:86
+#: src/screens/Settings/ContentAndMediaSettings.tsx:89
 msgid "Following feed preferences"
 msgstr "ធ្វើតាមចំណូលចិត្តមតិព័ត៌មាន"
 
@@ -4835,6 +4878,11 @@ msgstr ""
 msgid "Grooming or predatory behavior"
 msgstr ""
 
+#: src/components/dms/InitiateChatFlow.tsx:227
+#: src/components/dms/InitiateChatFlow.tsx:545
+msgid "Group name"
+msgstr ""
+
 #: src/components/moderation/ReportDialog/utils/useReportOptions.ts:219
 msgid "Hacking or system attacks"
 msgstr ""
@@ -4982,6 +5030,10 @@ msgstr ""
 msgid "Hide customization options"
 msgstr ""
 
+#: src/components/images/AltTextImage.tsx:64
+msgid "Hide image"
+msgstr ""
+
 #: src/components/dialogs/PostInteractionSettingsDialog.tsx:533
 msgid "Hide lists"
 msgstr ""
@@ -5018,6 +5070,10 @@ msgstr "លាក់ការបង្ហោះនេះ?"
 #: src/components/PostControls/PostMenu/PostMenuItems.tsx:843
 msgid "Hide this reply?"
 msgstr "លាក់ការឆ្លើយតបនេះ?"
+
+#: src/components/Post/Embed/ExternalEmbed/AltTextLinkThumbnail.tsx:96
+msgid "Hide thumbnail"
+msgstr ""
 
 #: src/components/Post/Translated/index.tsx:216
 #: src/components/Post/Translated/index.tsx:350
@@ -5749,13 +5805,17 @@ msgstr ""
 msgid "Likes of your reposts notifications"
 msgstr ""
 
-#: src/screens/PostThread/components/ThreadItemAnchor.tsx:489
+#: src/screens/PostThread/components/ThreadItemAnchor.tsx:482
 msgid "Likes on this post"
 msgstr "ចូលចិត្តនៅលើប្រកាសនេះ"
 
 #: src/screens/PostThread/components/HeaderDropdown.tsx:49
 #: src/screens/PostThread/components/HeaderDropdown.tsx:54
 msgid "Linear"
+msgstr ""
+
+#: src/components/Post/Embed/ExternalEmbed/AltTextLinkThumbnail.tsx:108
+msgid "Link thumbnail"
 msgstr ""
 
 #: src/Navigation.tsx:255
@@ -5987,8 +6047,8 @@ msgstr "ធ្វើមួយសម្រាប់ខ្ញុំ"
 msgid "Make sure this is where you intend to go!"
 msgstr "ត្រូវប្រាកដថានេះជាកន្លែងដែលអ្នកចង់ទៅ"
 
-#: src/screens/Settings/ContentAndMediaSettings.tsx:62
-#: src/screens/Settings/ContentAndMediaSettings.tsx:65
+#: src/screens/Settings/ContentAndMediaSettings.tsx:70
+#: src/screens/Settings/ContentAndMediaSettings.tsx:73
 msgid "Manage saved feeds"
 msgstr "គ្រប់គ្រងព័ត៌មានដែលបានរក្សាទុក"
 
@@ -6217,7 +6277,8 @@ msgstr "ភាពយន្ត"
 msgid "Music"
 msgstr "តន្ត្រី"
 
-#: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:169
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:276
+#: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:171
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/web-controls/VolumeControl.tsx:97
 msgctxt "video"
 msgid "Mute"
@@ -6392,7 +6453,8 @@ msgstr ""
 msgid "New {postsCount, plural, one {post} other {posts}} from {firstAuthorName}"
 msgstr ""
 
-#: src/components/dms/dialogs/NewChatDialog.tsx:71
+#: src/components/dms/dialogs/NewChatDialog.tsx:79
+#: src/components/dms/dialogs/NewChatDialog.tsx:89
 #: src/screens/Messages/ChatList.tsx:408
 #: src/screens/Messages/ChatList.tsx:415
 msgid "New chat"
@@ -6417,6 +6479,16 @@ msgstr ""
 #: src/screens/Settings/NotificationSettings/index.tsx:138
 #: src/screens/Settings/NotificationSettings/NewFollowerNotificationSettings.tsx:41
 msgid "New followers"
+msgstr ""
+
+#: src/components/dms/InitiateChatFlow.tsx:226
+#: src/components/dms/InitiateChatFlow.tsx:709
+#: src/components/dms/InitiateChatFlow.tsx:737
+msgid "New group chat"
+msgstr ""
+
+#: src/components/dms/InitiateChatFlow.tsx:261
+msgid "New group chat with:"
 msgstr ""
 
 #: src/screens/Settings/components/ChangeHandleDialog.tsx:228
@@ -6489,6 +6561,7 @@ msgstr "ព័ត៌មាន"
 
 #: src/components/contacts/screens/ViewMatches.tsx:395
 #: src/components/contacts/screens/ViewMatches.tsx:410
+#: src/components/dms/InitiateChatFlow.tsx:438
 #: src/screens/Login/ForgotPasswordForm.tsx:149
 #: src/screens/Login/ForgotPasswordForm.tsx:156
 #: src/screens/Login/SetNewPasswordForm.tsx:186
@@ -6641,7 +6714,8 @@ msgid "No result"
 msgstr "គ្មានលទ្ធផល"
 
 #: src/components/dialogs/SearchablePeopleList.tsx:224
-#: src/components/ProgressGuide/FollowDialog.tsx:211
+#: src/components/dms/InitiateChatFlow.tsx:334
+#: src/components/ProgressGuide/FollowDialog.tsx:209
 msgid "No results"
 msgstr "គ្មានលទ្ធផល"
 
@@ -6679,6 +6753,10 @@ msgstr ""
 #: src/components/dialogs/EmbedConsent.tsx:107
 msgid "No thanks"
 msgstr "ទេ អរគុណ"
+
+#: src/lib/translation/index.tsx:308
+msgid "No translation received from your device."
+msgstr ""
 
 #: src/view/screens/Profile.tsx:500
 msgid "No video posts yet"
@@ -6838,7 +6916,7 @@ msgstr ""
 #: src/components/BotAccountAlert.tsx:52
 #: src/components/BotAccountAlert.tsx:57
 #: src/screens/Login/PasswordUpdatedForm.tsx:37
-#: src/screens/PostThread/components/ThreadItemAnchor.tsx:658
+#: src/screens/PostThread/components/ThreadItemAnchor.tsx:651
 msgid "Okay"
 msgstr ""
 
@@ -6915,6 +6993,11 @@ msgstr "ឯកសារ WebVTT (.vtt) ងាយស្រួលគាំទ្រ
 #: src/screens/Settings/components/ChangeHandleDialog.tsx:108
 #: src/view/screens/Profile.tsx:133
 msgid "Oops!"
+msgstr ""
+
+#: src/screens/Settings/ContentAndMediaSettings.tsx:139
+#: src/screens/Settings/ContentAndMediaSettings.tsx:145
+msgid "Oops! All text"
 msgstr ""
 
 #: src/screens/Onboarding/StepProfile/index.tsx:310
@@ -7230,11 +7313,13 @@ msgstr "បានធ្វើបច្ចុប្បន្នភាពពាក
 msgid "Password updated!"
 msgstr "បានធ្វើបច្ចុប្បន្នភាពពាក្យសម្ងាត់"
 
-#: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:153
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:260
+#: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:155
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/web-controls/VideoControls.tsx:395
 msgid "Pause"
 msgstr "ផ្អាក"
 
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:240
 #: src/components/Post/Embed/VideoEmbed/GifPresentationControls.tsx:36
 msgid "Pause GIF"
 msgstr ""
@@ -7345,7 +7430,8 @@ msgstr ""
 msgid "Pinned to your feeds"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:153
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:260
+#: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:155
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/web-controls/VideoControls.tsx:396
 msgid "Play"
 msgstr "លេង"
@@ -7355,11 +7441,13 @@ msgstr "លេង"
 msgid "Play {0}"
 msgstr "លេង {0}"
 
+#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:151
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:240
 #: src/components/Post/Embed/VideoEmbed/GifPresentationControls.tsx:36
 msgid "Play GIF"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/index.tsx:130
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:158
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/web-controls/VideoControls.tsx:347
 msgid "Play video"
 msgstr "ចាក់វីដេអូ"
@@ -7372,7 +7460,8 @@ msgstr "ចាក់វីដេអូ"
 msgid "Plays or pauses the GIF"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:154
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:261
+#: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:156
 msgid "Plays or pauses the video"
 msgstr ""
 
@@ -7553,7 +7642,7 @@ msgctxt "action"
 msgid "Post"
 msgstr "ការបង្ហោះ"
 
-#: src/screens/PostThread/index.tsx:529
+#: src/screens/PostThread/index.tsx:552
 msgctxt "description"
 msgid "Post"
 msgstr "ការបង្ហោះ"
@@ -7594,7 +7683,7 @@ msgstr "Post ត្រូវាបានលុប"
 msgid "Post failed to upload. Please check your Internet connection and try again."
 msgstr "មិនអាចបង្ហោះសារបង្ហោះបានទេ។ សូមពិនិត្យមើលការតភ្ជាប់អ៊ីនធឺណិតរបស់អ្នក ហើយព្យាយាមម្តងទៀត"
 
-#: src/screens/PostThread/components/ThreadItemAnchor.tsx:130
+#: src/screens/PostThread/components/ThreadItemAnchor.tsx:131
 #: src/screens/PostThread/components/ThreadItemPost.tsx:113
 #: src/screens/PostThread/components/ThreadItemTreePost.tsx:109
 #: src/screens/VideoFeed/index.tsx:551
@@ -7873,7 +7962,7 @@ msgstr "Quote posts ត្រូវបានបិទ"
 msgid "Quotes"
 msgstr ""
 
-#: src/screens/PostThread/components/ThreadItemAnchor.tsx:471
+#: src/screens/PostThread/components/ThreadItemAnchor.tsx:464
 msgid "Quotes of this post"
 msgstr ""
 
@@ -8009,6 +8098,10 @@ msgstr "ផ្ទុកការសន្ទនាឡើងវិញ"
 msgid "Remove"
 msgstr "ដកចេញ"
 
+#: src/components/dms/ChatProfileTabs.tsx:153
+msgid "Remove {displayName} from group chat"
+msgstr ""
+
 #: src/components/StarterPack/Wizard/WizardListCard.tsx:62
 msgid "Remove {displayName} from starter pack"
 msgstr "លុប {displayName} ចេញពីកញ្ចប់ចាប់ផ្តើម"
@@ -8085,7 +8178,7 @@ msgstr ""
 msgid "Remove from your feeds?"
 msgstr ""
 
-#: src/view/com/composer/photos/Gallery.tsx:228
+#: src/view/com/composer/photos/Gallery.tsx:230
 msgid "Remove image"
 msgstr "លុបរូបភាព"
 
@@ -8135,11 +8228,11 @@ msgstr ""
 msgid "Remove your verification for this account?"
 msgstr ""
 
-#: src/components/Post/Embed/index.tsx:214
+#: src/components/Post/Embed/index.tsx:216
 msgid "Removed by author"
 msgstr "លុបចេញដោយ author"
 
-#: src/components/Post/Embed/index.tsx:212
+#: src/components/Post/Embed/index.tsx:214
 msgid "Removed by you"
 msgstr "ដកចេញដោយអ្នក"
 
@@ -8404,7 +8497,7 @@ msgstr "ផ្សាយឡើងវិញដោយអ្នក"
 msgid "Reposts"
 msgstr ""
 
-#: src/screens/PostThread/components/ThreadItemAnchor.tsx:451
+#: src/screens/PostThread/components/ThreadItemAnchor.tsx:444
 msgid "Reposts of this post"
 msgstr "ការផ្សាយឡើងវិញនៃប្រកាសនេះ"
 
@@ -8701,7 +8794,7 @@ msgstr "ស្វែងរក"
 msgid "Search @{0}'s posts"
 msgstr ""
 
-#: src/components/ProgressGuide/FollowDialog.tsx:658
+#: src/components/ProgressGuide/FollowDialog.tsx:685
 msgid "Search by name or interest"
 msgstr ""
 
@@ -8714,22 +8807,26 @@ msgid "Search feeds"
 msgstr ""
 
 #. Accessibility label for a tab that searches for accounts in a category (e.g. Art, Video Games, Sports, etc.) that are suggested for the user to follow. The tab is not currently active and can be selected.
-#: src/components/ProgressGuide/FollowDialog.tsx:487
+#: src/components/ProgressGuide/FollowDialog.tsx:488
 msgid "Search for \"{interestsDisplayName}\""
 msgstr ""
 
 #. Accessibility label for a tab that searches for accounts in a category (e.g. Art, Video Games, Sports, etc.) that are suggested for the user to follow. The tab is currently selected.
-#: src/components/ProgressGuide/FollowDialog.tsx:480
+#: src/components/ProgressGuide/FollowDialog.tsx:483
 msgid "Search for \"{interestsDisplayName}\" (active)"
 msgstr ""
 
 #: src/view/shell/desktop/Search.tsx:130
-msgid "Search for \"{query}\""
-msgstr "ស្វែងរក \"{query}\""
+#~ msgid "Search for \"{query}\""
+#~ msgstr "ស្វែងរក \"{query}\""
 
 #: src/screens/Search/components/AutocompleteResults.tsx:47
 msgid "Search for \"{searchText}\""
 msgstr "ស្វែងរក \"{searchText}\""
+
+#: src/view/shell/desktop/Search.tsx:128
+msgid "Search for “{tQuery}”"
+msgstr ""
 
 #: src/screens/StarterPack/Wizard/index.tsx:552
 msgid "Search for feeds that you want to suggest to others."
@@ -8741,6 +8838,10 @@ msgstr ""
 
 #: src/screens/Search/Explore.tsx:454
 msgid "Search for more feeds"
+msgstr ""
+
+#: src/components/dms/InitiateChatFlow.tsx:982
+msgid "Search for people"
 msgstr ""
 
 #: src/screens/Search/Shell.tsx:380
@@ -8771,7 +8872,8 @@ msgid "Search posts"
 msgstr ""
 
 #: src/components/dialogs/SearchablePeopleList.tsx:535
-#: src/components/ProgressGuide/FollowDialog.tsx:677
+#: src/components/dms/InitiateChatFlow.tsx:1002
+#: src/components/ProgressGuide/FollowDialog.tsx:704
 msgid "Search profiles"
 msgstr "ស្វែងរកប្រវត្តិរូប"
 
@@ -8784,7 +8886,8 @@ msgid "Search..."
 msgstr ""
 
 #: src/components/dialogs/SearchablePeopleList.tsx:536
-#: src/components/ProgressGuide/FollowDialog.tsx:678
+#: src/components/dms/InitiateChatFlow.tsx:1003
+#: src/components/ProgressGuide/FollowDialog.tsx:705
 msgid "Searches for profiles"
 msgstr ""
 
@@ -8822,12 +8925,12 @@ msgstr ""
 msgid "See jobs at Bluesky"
 msgstr "មើលការងារនៅ Bluesky"
 
-#: src/components/FeedInterstitials.tsx:592
-#: src/components/FeedInterstitials.tsx:655
+#: src/components/FeedInterstitials.tsx:583
+#: src/components/FeedInterstitials.tsx:641
 msgid "See more"
 msgstr ""
 
-#: src/components/FeedInterstitials.tsx:573
+#: src/components/FeedInterstitials.tsx:564
 msgid "See more suggested profiles"
 msgstr ""
 
@@ -8926,6 +9029,10 @@ msgstr "ជ្រើសរើស GIF"
 #: src/components/dialogs/GifSelect.tsx:297
 msgid "Select GIF \"{0}\""
 msgstr "ជ្រើសរើស GIF \"{0}\""
+
+#: src/components/dms/InitiateChatFlow.tsx:645
+msgid "Select group chat members"
+msgstr ""
 
 #: src/components/dialogs/MutedWords.tsx:151
 msgid "Select how long to mute this word for."
@@ -9364,7 +9471,7 @@ msgstr "បង្ហាញការព្រមាន និងត្រងព�
 msgid "Show when you’re live"
 msgstr ""
 
-#: src/screens/PostThread/components/ThreadItemAnchor.tsx:599
+#: src/screens/PostThread/components/ThreadItemAnchor.tsx:592
 msgid "Shows information about when this post was created"
 msgstr ""
 
@@ -9519,7 +9626,7 @@ msgstr ""
 msgid "Some of your verifications are invalid."
 msgstr ""
 
-#: src/components/FeedInterstitials.tsx:734
+#: src/components/FeedInterstitials.tsx:720
 msgid "Some other feeds you might like"
 msgstr "មតិព័ត៌មានផ្សេងទៀតដែលអ្នកប្រហែលជាចូលចិត្ត"
 
@@ -9618,7 +9725,7 @@ msgstr "កីឡា"
 msgid "Start a conversation, and it will appear here."
 msgstr ""
 
-#: src/components/dms/dialogs/NewChatDialog.tsx:81
+#: src/components/dms/dialogs/NewChatDialog.tsx:95
 msgid "Start a new chat"
 msgstr "ចាប់ផ្តើមការជជែកថ្មី"
 
@@ -9632,7 +9739,12 @@ msgstr ""
 msgid "Start adding people!"
 msgstr ""
 
+#: src/components/dms/InitiateChatFlow.tsx:646
+msgid "Start chat"
+msgstr ""
+
 #: src/components/dialogs/SearchablePeopleList.tsx:383
+#: src/components/dms/InitiateChatFlow.tsx:773
 msgid "Start chat with {displayName}"
 msgstr "ចាប់ផ្តើមជជែកជាមួយ {displayName}"
 
@@ -9772,12 +9884,16 @@ msgstr "ជោគជ័យ!"
 msgid "Successfully verified"
 msgstr ""
 
+#: src/components/dms/InitiateChatFlow.tsx:313
+msgid "Suggested"
+msgstr ""
+
 #: src/screens/Search/Explore.tsx:374
 msgid "Suggested accounts"
 msgstr ""
 
 #. Accounts suggested to the user for them to follow
-#: src/components/FeedInterstitials.tsx:569
+#: src/components/FeedInterstitials.tsx:561
 #: src/screens/Onboarding/StepSuggestedAccounts/index.tsx:180
 msgid "Suggested for you"
 msgstr "បានណែនាំសម្រាប់អ្នក"
@@ -9872,6 +9988,38 @@ msgstr ""
 #: src/components/ProgressGuide/Toast.tsx:163
 msgid "Tap to dismiss"
 msgstr "ប៉ះដើម្បីច្រានចោល"
+
+#: src/components/images/AltTextImage.tsx:50
+msgid "Tap to hide image"
+msgstr ""
+
+#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:134
+msgid "Tap to play GIF"
+msgstr ""
+
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:255
+msgid "Tap to play or pause"
+msgstr ""
+
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:146
+msgid "Tap to play video"
+msgstr ""
+
+#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:75
+msgid "Tap to view GIF"
+msgstr ""
+
+#: src/components/images/AltTextImage.tsx:100
+msgid "Tap to view image"
+msgstr ""
+
+#: src/components/Post/Embed/ExternalEmbed/AltTextLinkThumbnail.tsx:53
+msgid "Tap to view thumbnail"
+msgstr ""
+
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:87
+msgid "Tap to view video thumbnail"
+msgstr ""
 
 #: src/components/moderation/ReportDialog/utils/useReportOptions.ts:107
 msgid "Targeted harassment"
@@ -10387,7 +10535,7 @@ msgstr "សេវាកម្មសម្របសម្រួលនេះមិ
 
 #. placeholder {0}: niceDate(i18n, createdAt)
 #. placeholder {1}: niceDate(i18n, indexedAt)
-#: src/screens/PostThread/components/ThreadItemAnchor.tsx:639
+#: src/screens/PostThread/components/ThreadItemAnchor.tsx:632
 msgid "This post claims to have been created on <0>{0}</0>, but was first seen by Bluesky on <1>{1}</1>."
 msgstr "ប្រកាសនេះអះអាងថាត្រូវបានបង្កើតឡើងនៅលើ <0>{0}</0> ប៉ុន្តែត្រូវបានមើលឃើញជាលើកដំបូងដោយ Bluesky នៅលើ <1>{1}</1>"
 
@@ -10501,8 +10649,8 @@ msgstr "វានឹងលុបការបង្ហោះរបស់អ្ន
 msgid "Thread options"
 msgstr ""
 
-#: src/screens/Settings/ContentAndMediaSettings.tsx:70
-#: src/screens/Settings/ContentAndMediaSettings.tsx:73
+#: src/screens/Settings/ContentAndMediaSettings.tsx:78
+#: src/screens/Settings/ContentAndMediaSettings.tsx:81
 msgid "Thread preferences"
 msgstr "ចំណូលចិត្តខ្សែស្រឡាយ"
 
@@ -10554,7 +10702,8 @@ msgstr "ថ្ងៃនេះ"
 msgid "Toggle to enable or disable adult content"
 msgstr "បិទ/បើក ដើម្បីបើក ឬបិទមាតិកាសម្រាប់មនុស្សពេញវ័យ"
 
-#: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:171
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:278
+#: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:173
 msgid "Toggles the sound"
 msgstr ""
 
@@ -10607,6 +10756,10 @@ msgstr ""
 #: src/components/PostControls/PostMenu/PostMenuItems.tsx:537
 #: src/components/PostControls/PostMenu/PostMenuItems.tsx:539
 msgid "Translating…"
+msgstr ""
+
+#: src/lib/translation/index.tsx:305
+msgid "Translation to the same language is unavailable on your device."
 msgstr ""
 
 #: src/screens/Settings/ThreadPreferences.tsx:87
@@ -10827,7 +10980,8 @@ msgstr ""
 msgid "Unmute"
 msgstr "បើក​សំឡេង"
 
-#: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:168
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:275
+#: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:170
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/web-controls/VolumeControl.tsx:96
 msgctxt "video"
 msgid "Unmute"
@@ -10926,6 +11080,10 @@ msgstr "ឈប់ជាវពីអ្នកដាក់ស្លាកនេះ
 msgid "Unsubscribed from list"
 msgstr "ឈប់ជាវពីបញ្ជី"
 
+#: src/view/com/composer/text-input/TextInput.tsx:131
+msgid "Unsupported clipboard content"
+msgstr ""
+
 #: src/view/com/composer/Composer.tsx:1369
 msgid "Unsupported video type: {mimeType}"
 msgstr ""
@@ -11022,8 +11180,8 @@ msgstr "ប្រើអ្នកផ្តល់សេវាលំនាំដើ
 msgid "Use in-app browser"
 msgstr "ប្រើកម្មវិធីរុករកតាមអ៊ីនធឺណិត"
 
-#: src/screens/Settings/ContentAndMediaSettings.tsx:104
-#: src/screens/Settings/ContentAndMediaSettings.tsx:110
+#: src/screens/Settings/ContentAndMediaSettings.tsx:112
+#: src/screens/Settings/ContentAndMediaSettings.tsx:118
 msgid "Use in-app browser to open links"
 msgstr "ប្រើកម្មវិធីរុករកតាមអ៊ីនធឺណិតក្នុងកម្មវិធីដើម្បីបើកតំណ"
 
@@ -11240,8 +11398,11 @@ msgstr ""
 msgid "Version {0}"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:86
-#: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:147
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:40
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:223
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:254
+#: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:87
+#: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:149
 msgid "Video"
 msgstr "វីដេអូ"
 
@@ -11289,7 +11450,8 @@ msgid "Video uploaded"
 msgstr "បង្ហោះវីដេអូ"
 
 #. placeholder {0}: embed.alt
-#: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:86
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:223
+#: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:87
 msgid "Video: {0}"
 msgstr "វីដេអូ៖ {0}"
 
@@ -11604,9 +11766,13 @@ msgid "We're having issues initializing the age assurance process for your accou
 msgstr ""
 
 #: src/components/dialogs/SearchablePeopleList.tsx:108
-#: src/components/ProgressGuide/FollowDialog.tsx:185
+#: src/components/ProgressGuide/FollowDialog.tsx:183
 msgid "We're having network issues, try again"
 msgstr "យើងកំពុងមានបញ្ហាបណ្តាញ សូមព្យាយាមម្តងទៀត"
+
+#: src/components/dms/InitiateChatFlow.tsx:250
+msgid "We’re having network issues, try again"
+msgstr ""
 
 #: src/components/dialogs/nuxs/InitialVerificationAnnouncement.tsx:96
 msgid "We’re introducing a new layer of verification on Bluesky — an easy-to-see checkmark."
@@ -12398,8 +12564,8 @@ msgstr "ចំណុចទាញពេញលេញរបស់អ្នកនឹ
 
 #: src/Navigation.tsx:536
 #: src/screens/Search/modules/ExploreInterestsCard.tsx:68
-#: src/screens/Settings/ContentAndMediaSettings.tsx:94
-#: src/screens/Settings/ContentAndMediaSettings.tsx:97
+#: src/screens/Settings/ContentAndMediaSettings.tsx:102
+#: src/screens/Settings/ContentAndMediaSettings.tsx:105
 #: src/screens/Settings/InterestsSettings.tsx:47
 msgid "Your interests"
 msgstr ""

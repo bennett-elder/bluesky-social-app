@@ -1,0 +1,92 @@
+---
+name: Release Android APK
+
+on:
+  workflow_dispatch:
+    inputs:
+      create_release:
+        type: boolean
+        description: 'Create GitHub Release with APK'
+        default: true
+
+jobs:
+  build:
+    name: Build and Release Android APK
+    runs-on: Linux-x64-32core
+    concurrency:
+      group: android-release-build
+      cancel-in-progress: false
+    steps:
+      - name: ⬇️ Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 5
+
+      - name: 🔧 Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: yarn
+
+      - name: 🪛 Setup jq
+        uses: dcarbone/install-jq-action@v2
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "17"
+
+      - name: ⚙️ Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: 🔤 Compile translations
+        run: yarn intl:build 2>&1 | tee i18n.log
+
+      - name: Check for i18n compilation errors
+        run: if grep -q "invalid syntax" "i18n.log"; then echo "Found compilation errors!" && exit 1; else echo "No compilation errors!"; fi
+
+      - name: ⚙️ Setup Environment
+        id: env
+        run: |
+          # Copy google-services.json from secret or example
+          if [ -n "${{ secrets.GOOGLE_SERVICES_JSON }}" ]; then
+            echo "${{ secrets.GOOGLE_SERVICES_JSON }}" > google-services.json
+          elif [ -f google-services.json.example ]; then
+            cp google-services.json.example google-services.json
+          fi
+          
+          # Set version info for release
+          echo "PACKAGE_VERSION=$(jq -r '.version' package.json)" >> $GITHUB_OUTPUT
+
+      - name: 🔧 Setup Android SDK
+        run: |
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT"
+
+      - name: 🏗️ Prebuild Android
+        run: npx expo prebuild --platform android --clean
+
+      - name: 🏗️ Build Release APK
+        run: |
+          cd android
+          ./gradlew assembleRelease
+
+      - name: 📚 Get Build Info
+        id: get-build-info
+        run: |
+          VERSION=$(jq -r '.version' package.json)
+          echo "PACKAGE_VERSION=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: 🚀 Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ steps.get-build-info.outputs.PACKAGE_VERSION }}-${{ github.run_number }}
+          name: Android Release v${{ steps.get-build-info.outputs.PACKAGE_VERSION }} (Build ${{ github.run_number }})
+          body: |
+            Android release build
+            - Version: ${{ steps.get-build-info.outputs.PACKAGE_VERSION }}
+            - Commit: ${{ github.sha }}
+            - Build triggered by: ${{ github.triggering_actor }}
+          files: android/app/build/outputs/apk/release/app-release.apk
+          make_latest: true
+          generate_release_notes: true

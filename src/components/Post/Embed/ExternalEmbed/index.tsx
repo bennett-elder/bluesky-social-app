@@ -1,6 +1,5 @@
 import {useCallback, useMemo} from 'react'
 import {type StyleProp, View, type ViewStyle} from 'react-native'
-import {Image} from 'expo-image'
 import {type AppBskyEmbedExternal} from '@atproto/api'
 import {msg} from '@lingui/core/macro'
 import {useLingui} from '@lingui/react'
@@ -17,6 +16,7 @@ import {Earth_Stroke2_Corner0_Rounded as Globe} from '#/components/icons/Globe'
 import {Link} from '#/components/Link'
 import {Text} from '#/components/Typography'
 import {IS_NATIVE} from '#/env'
+import {AltTextLinkThumbnail} from './AltTextLinkThumbnail'
 import {ExternalGif} from './ExternalGif'
 import {ExternalPlayer} from './ExternalPlayer'
 import {GifEmbed} from './Gif'
@@ -96,12 +96,12 @@ export const ExternalEmbed = ({
               : t.atoms.border_contrast_low,
           ]}>
           {imageUri && !embedPlayerParams ? (
-            <Image
-              style={[a.aspect_card]}
-              source={{uri: imageUri}}
-              accessibilityIgnoresInvertColors
-              loading="lazy"
-            />
+            <View style={[a.px_sm, a.pb_xs]}>
+              <AltTextLinkThumbnail
+                imageUri={imageUri}
+                altText={link.description}
+              />
+            </View>
           ) : undefined}
 
           {embedPlayerParams?.isGif ? (
