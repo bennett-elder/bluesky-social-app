@@ -12,7 +12,7 @@ on:
 jobs:
   build:
     name: Build and Release Android APK
-    runs-on: Linux-x64-32core
+    runs-on: ubuntu-latest
     concurrency:
       group: android-release-build
       cancel-in-progress: false
