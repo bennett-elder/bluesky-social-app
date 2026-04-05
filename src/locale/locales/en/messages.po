@@ -1191,11 +1191,6 @@ msgstr ""
 msgid "Alt text will be truncated. {MAX_ALT_TEXT, plural, other {Limit: {0} characters.}}"
 msgstr ""
 
-#: src/screens/Settings/ContentAndMediaSettings.tsx:139
-#: src/screens/Settings/ContentAndMediaSettings.tsx:145
-#~ msgid "Alt-text first display"
-#~ msgstr "Alt-text first display"
-
 #. placeholder {0}: currentAccount?.email || '(no email)'
 #: src/screens/Settings/components/DisableEmail2FADialog.tsx:94
 msgid "An email has been sent to {0}. It includes a confirmation code which you can enter below."
@@ -1338,7 +1333,7 @@ msgstr ""
 msgid "Animals"
 msgstr ""
 
-#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:206
+#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:230
 msgid "Animated GIF"
 msgstr ""
 
@@ -1712,7 +1707,7 @@ msgstr ""
 msgid "Block user and/or delete this conversation"
 msgstr ""
 
-#: src/components/Post/Embed/index.tsx:188
+#: src/components/Post/Embed/index.tsx:165
 msgid "Blocked"
 msgstr ""
 
@@ -2356,8 +2351,8 @@ msgstr ""
 msgid "Close emoji picker"
 msgstr ""
 
-#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:120
-#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:191
+#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:134
+#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:214
 msgid "Close GIF"
 msgstr "Close GIF"
 
@@ -2384,8 +2379,8 @@ msgstr ""
 msgid "Close this dialog"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:133
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:200
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:134
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:204
 msgid "Close video"
 msgstr "Close video"
 
@@ -2405,6 +2400,30 @@ msgstr ""
 #: src/view/com/composer/text-input/web/EmojiPicker.web.tsx:173
 msgid "Closes the emoji picker"
 msgstr ""
+
+#: src/components/images/AltTextImage.tsx:82
+msgid "Closes the expanded image view"
+msgstr "Closes the expanded image view"
+
+#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:215
+msgid "Closes the GIF player"
+msgstr "Closes the GIF player"
+
+#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:135
+msgid "Closes the GIF preview"
+msgstr "Closes the GIF preview"
+
+#: src/components/Post/Embed/ExternalEmbed/AltTextLinkThumbnail.tsx:102
+msgid "Closes the thumbnail preview"
+msgstr "Closes the thumbnail preview"
+
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:205
+msgid "Closes the video player"
+msgstr "Closes the video player"
+
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:135
+msgid "Closes the video preview"
+msgstr "Closes the video preview"
 
 #: src/view/com/lightbox/ImageViewing/components/ImageDefaultHeader.tsx:32
 msgid "Closes viewer for header image"
@@ -3128,7 +3147,7 @@ msgstr ""
 msgid "Delete this post?"
 msgstr ""
 
-#: src/components/Post/Embed/index.tsx:181
+#: src/components/Post/Embed/index.tsx:158
 msgid "Deleted"
 msgstr ""
 
@@ -4412,10 +4431,6 @@ msgstr ""
 msgid "Focus code input"
 msgstr ""
 
-#: src/lib/hotkeys/index.tsx:74
-#~ msgid "Focus the search field"
-#~ msgstr "Focus the search field"
-
 #. User is not following this account, click to follow
 #: src/components/ProfileCard.tsx:546
 #: src/components/ProfileHoverCard/index.web.tsx:495
@@ -5029,7 +5044,7 @@ msgstr ""
 msgid "Hide customization options"
 msgstr ""
 
-#: src/components/images/AltTextImage.tsx:64
+#: src/components/images/AltTextImage.tsx:81
 msgid "Hide image"
 msgstr "Hide image"
 
@@ -5070,7 +5085,7 @@ msgstr ""
 msgid "Hide this reply?"
 msgstr ""
 
-#: src/components/Post/Embed/ExternalEmbed/AltTextLinkThumbnail.tsx:96
+#: src/components/Post/Embed/ExternalEmbed/AltTextLinkThumbnail.tsx:101
 msgid "Hide thumbnail"
 msgstr "Hide thumbnail"
 
@@ -5813,7 +5828,7 @@ msgstr ""
 msgid "Linear"
 msgstr ""
 
-#: src/components/Post/Embed/ExternalEmbed/AltTextLinkThumbnail.tsx:108
+#: src/components/Post/Embed/ExternalEmbed/AltTextLinkThumbnail.tsx:114
 msgid "Link thumbnail"
 msgstr "Link thumbnail"
 
@@ -6276,7 +6291,7 @@ msgstr ""
 msgid "Music"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:276
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:290
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:171
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/web-controls/VolumeControl.tsx:97
 msgctxt "video"
@@ -7312,13 +7327,13 @@ msgstr ""
 msgid "Password updated!"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:260
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:272
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:155
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/web-controls/VideoControls.tsx:395
 msgid "Pause"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:240
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:248
 #: src/components/Post/Embed/VideoEmbed/GifPresentationControls.tsx:36
 msgid "Pause GIF"
 msgstr ""
@@ -7326,6 +7341,10 @@ msgstr ""
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/web-controls/VideoControls.tsx:346
 msgid "Pause video"
 msgstr ""
+
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:251
+msgid "Pauses the GIF"
+msgstr "Pauses the GIF"
 
 #: src/screens/ProfileList/index.tsx:169
 #: src/screens/Search/SearchResults.tsx:74
@@ -7429,7 +7448,7 @@ msgstr ""
 msgid "Pinned to your feeds"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:260
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:272
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:155
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/web-controls/VideoControls.tsx:396
 msgid "Play"
@@ -7440,13 +7459,13 @@ msgstr ""
 msgid "Play {0}"
 msgstr ""
 
-#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:151
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:240
+#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:172
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:248
 #: src/components/Post/Embed/VideoEmbed/GifPresentationControls.tsx:36
 msgid "Play GIF"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:158
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:160
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/web-controls/VideoControls.tsx:347
 msgid "Play video"
 msgstr ""
@@ -7459,12 +7478,13 @@ msgstr ""
 msgid "Plays or pauses the GIF"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:261
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:273
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:156
 msgid "Plays or pauses the video"
 msgstr ""
 
 #: src/components/Post/Embed/ExternalEmbed/ExternalGif.tsx:109
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:251
 msgid "Plays the GIF"
 msgstr ""
 
@@ -8227,11 +8247,11 @@ msgstr ""
 msgid "Remove your verification for this account?"
 msgstr ""
 
-#: src/components/Post/Embed/index.tsx:216
+#: src/components/Post/Embed/index.tsx:193
 msgid "Removed by author"
 msgstr ""
 
-#: src/components/Post/Embed/index.tsx:214
+#: src/components/Post/Embed/index.tsx:191
 msgid "Removed by you"
 msgstr ""
 
@@ -9784,6 +9804,14 @@ msgstr ""
 msgid "Starter Packs let you share your favorite feeds and people with your friends."
 msgstr ""
 
+#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:173
+msgid "Starts playing the GIF"
+msgstr "Starts playing the GIF"
+
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:161
+msgid "Starts playing the video"
+msgstr "Starts playing the video"
+
 #: src/screens/Settings/AboutSettings.tsx:99
 #: src/screens/Settings/AboutSettings.tsx:102
 msgid "Status Page"
@@ -9984,31 +10012,31 @@ msgstr ""
 msgid "Tap to dismiss"
 msgstr ""
 
-#: src/components/images/AltTextImage.tsx:50
-msgid "Tap to hide image"
-msgstr "Tap to hide image"
-
-#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:134
+#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:149
 msgid "Tap to play GIF"
 msgstr "Tap to play GIF"
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:255
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:267
 msgid "Tap to play or pause"
 msgstr "Tap to play or pause"
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:146
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:148
 msgid "Tap to play video"
 msgstr "Tap to play video"
 
-#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:75
+#: src/components/images/AltTextImage.tsx:64
+msgid "Tap to view full size"
+msgstr "Tap to view full size"
+
+#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:79
 msgid "Tap to view GIF"
 msgstr "Tap to view GIF"
 
-#: src/components/images/AltTextImage.tsx:100
+#: src/components/images/AltTextImage.tsx:114
 msgid "Tap to view image"
 msgstr "Tap to view image"
 
-#: src/components/Post/Embed/ExternalEmbed/AltTextLinkThumbnail.tsx:53
+#: src/components/Post/Embed/ExternalEmbed/AltTextLinkThumbnail.tsx:56
 msgid "Tap to view thumbnail"
 msgstr "Tap to view thumbnail"
 
@@ -10697,7 +10725,7 @@ msgstr ""
 msgid "Toggle to enable or disable adult content"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:278
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:292
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:173
 msgid "Toggles the sound"
 msgstr ""
@@ -10975,7 +11003,7 @@ msgstr ""
 msgid "Unmute"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:275
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:289
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:170
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/web-controls/VolumeControl.tsx:96
 msgctxt "video"
@@ -11394,8 +11422,8 @@ msgid "Version {0}"
 msgstr ""
 
 #: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:40
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:223
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:254
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:229
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:266
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:87
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:149
 msgid "Video"
@@ -11445,7 +11473,7 @@ msgid "Video uploaded"
 msgstr ""
 
 #. placeholder {0}: embed.alt
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:223
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:229
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:87
 msgid "Video: {0}"
 msgstr ""
