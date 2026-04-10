@@ -6,6 +6,7 @@ import {useLingui} from '@lingui/react'
 import type * as HlsTypes from 'hls.js'
 
 import {useNonReactiveCallback} from '#/lib/hooks/useNonReactiveCallback'
+import {useAltTextFirstEnabled} from '#/state/preferences'
 import {atoms as a} from '#/alf'
 import * as BandwidthEstimate from './bandwidth-estimate'
 import {Controls} from './web-controls/VideoControls'
@@ -15,13 +16,13 @@ export function VideoEmbedInnerWeb({
   active,
   setActive,
   onScreen,
-  lastKnownTime,
+  lastKnownTimeRef,
 }: {
   embed: AppBskyEmbedVideo.View
   active: boolean
   setActive: () => void
   onScreen: boolean
-  lastKnownTime: React.RefObject<number | undefined>
+  lastKnownTimeRef: React.RefObject<number | undefined>
 }) {
   const containerRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -30,6 +31,13 @@ export function VideoEmbedInnerWeb({
   const [hlsLoading, setHlsLoading] = useState(false)
   const figId = useId()
   const {_} = useLingui()
+  const altTextFirstEnabled = useAltTextFirstEnabled()
+  console.log(
+    'VideoEmbedInnerWeb: altTextFirstEnabled =',
+    altTextFirstEnabled,
+    'poster =',
+    altTextFirstEnabled ? undefined : embed.thumbnail,
+  )
 
   // send error up to error boundary
   const [error, setError] = useState<Error | null>(null)
@@ -46,10 +54,10 @@ export function VideoEmbedInnerWeb({
   })
 
   useEffect(() => {
-    if (lastKnownTime.current && videoRef.current) {
-      videoRef.current.currentTime = lastKnownTime.current
+    if (lastKnownTimeRef.current && videoRef.current) {
+      videoRef.current.currentTime = lastKnownTimeRef.current
     }
-  }, [lastKnownTime])
+  }, [lastKnownTimeRef])
 
   return (
     <View
@@ -59,15 +67,20 @@ export function VideoEmbedInnerWeb({
       <div ref={containerRef} style={{height: '100%', width: '100%'}}>
         <figure style={{margin: 0, position: 'absolute', inset: 0}}>
           <video
+            id="video-embed-debug"
             ref={videoRef}
-            poster={embed.thumbnail}
+            poster={
+              altTextFirstEnabled
+                ? 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
+                : embed.thumbnail
+            }
             style={{width: '100%', height: '100%', objectFit: 'contain'}}
             playsInline
             preload="none"
             muted={embed.presentation === 'gif' || !focused}
             aria-labelledby={embed.alt ? figId : undefined}
             onTimeUpdate={e => {
-              lastKnownTime.current = e.currentTarget.currentTime
+              lastKnownTimeRef.current = e.currentTarget.currentTime
             }}
             loop={loop}
           />

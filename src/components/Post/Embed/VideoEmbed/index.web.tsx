@@ -6,15 +6,17 @@ import {
   useRef,
   useState,
 } from 'react'
-import {View} from 'react-native'
+import {Pressable, View} from 'react-native'
 import {type AppBskyEmbedVideo} from '@atproto/api'
 import {msg} from '@lingui/core/macro'
 import {useLingui} from '@lingui/react'
 
+import {useAltTextFirstEnabled} from '#/state/preferences'
 import {ErrorBoundary} from '#/view/com/util/ErrorBoundary'
 import {atoms as a, useTheme} from '#/alf'
 import {useIsWithinMessage} from '#/components/dms/MessageContext'
 import {useFullscreen} from '#/components/hooks/useFullscreen'
+import {ArrowsDiagonalOut_Stroke2_Corner0_Rounded as ExpandIcon} from '#/components/icons/ArrowsDiagonal'
 import {ConstrainedImage} from '#/components/images/AutoSizedImage'
 import {MediaInsetBorder} from '#/components/MediaInsetBorder'
 import {
@@ -22,14 +24,29 @@ import {
   VideoEmbedInnerWeb,
   VideoNotFoundError,
 } from '#/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerWeb'
+import {Text} from '#/components/Typography'
 import {IS_WEB_FIREFOX} from '#/env'
 import {useActiveVideoWeb} from './ActiveVideoWebContext'
 import * as VideoFallback from './VideoEmbedInner/VideoFallback'
 
 const noop = () => {}
 
+type VideoState = 'collapsed' | 'expanded'
+
 export function VideoEmbed({embed}: {embed: AppBskyEmbedVideo.View}) {
   const t = useTheme()
+  const altTextFirstEnabled = useAltTextFirstEnabled()
+  const {_} = useLingui()
+  const [state, setState] = useState<VideoState>(() =>
+    altTextFirstEnabled ? 'collapsed' : 'expanded',
+  )
+  const userInteractedRef = useRef(false)
+  console.log(
+    'VideoEmbed.web: altTextFirstEnabled =',
+    altTextFirstEnabled,
+    'state =',
+    state,
+  )
   const ref = useRef<HTMLDivElement>(null)
   const {
     active: activeFromContext,
@@ -39,12 +56,33 @@ export function VideoEmbed({embed}: {embed: AppBskyEmbedVideo.View}) {
   } = useActiveVideoWeb()
   const [onScreen, setOnScreen] = useState(false)
   const [isFullscreen] = useFullscreen()
-  const lastKnownTime = useRef<number | undefined>(undefined)
+  const lastKnownTimeRef = useRef<number | undefined>(undefined)
 
   const isGif = embed.presentation === 'gif'
   // GIFs don't participate in the "one video at a time" system
   const active = isGif || activeFromContext
 
+  const handleExpand = () => {
+    userInteractedRef.current = true
+    setState('expanded')
+  }
+
+  // Update state when setting changes (only if user hasn't manually interacted)
+  // Using a ref to track the setting value and update state lazily to avoid setState in effect
+  const altTextFirstEnabledRef = useRef(altTextFirstEnabled)
+  useEffect(() => {
+    if (userInteractedRef.current) return
+    if (altTextFirstEnabledRef.current !== altTextFirstEnabled) {
+      altTextFirstEnabledRef.current = altTextFirstEnabled
+      if (state === 'expanded' && altTextFirstEnabled) {
+        setState('collapsed')
+      } else if (state === 'collapsed' && !altTextFirstEnabled) {
+        setState('expanded')
+      }
+    }
+  }, [altTextFirstEnabled, state])
+
+  // All hooks must be called before any early returns
   useEffect(() => {
     if (!ref.current) return
     if (isFullscreen && !IS_WEB_FIREFOX) return
@@ -66,6 +104,7 @@ export function VideoEmbed({embed}: {embed: AppBskyEmbedVideo.View}) {
     return () => observer.disconnect()
   }, [sendPosition, isFullscreen, isGif])
 
+  // ALL hooks must be called before any early returns
   const [key, setKey] = useState(0)
   const renderError = useCallback(
     (error: unknown) => (
@@ -73,6 +112,46 @@ export function VideoEmbed({embed}: {embed: AppBskyEmbedVideo.View}) {
     ),
     [key],
   )
+
+  // If collapsed, show alt text box (after all hooks are called)
+  if (state === 'collapsed') {
+    const altText = embed.alt || _(msg`Video`)
+    return (
+      <View style={[a.pt_xs]}>
+        <Pressable
+          onPress={handleExpand}
+          style={[
+            a.rounded_md,
+            a.overflow_hidden,
+            t.atoms.bg_contrast_25,
+            {minHeight: 80},
+          ]}
+          accessibilityLabel={altText}
+          accessibilityHint={_(msg`Tap to view video thumbnail`)}
+          accessibilityRole="button">
+          <View style={[a.p_md, a.flex_row, a.align_center, a.gap_sm]}>
+            <View
+              style={[
+                a.rounded_xs,
+                {
+                  padding: 4,
+                  backgroundColor: t.atoms.text_contrast_high.color,
+                  opacity: 0.8,
+                },
+              ]}>
+              <ExpandIcon fill={t.atoms.bg.backgroundColor} width={16} />
+            </View>
+            <View style={[a.flex_1]}>
+              <Text style={[a.text_sm, t.atoms.text, {flexWrap: 'wrap'}]}>
+                {altText}
+              </Text>
+            </View>
+          </View>
+          <MediaInsetBorder />
+        </Pressable>
+      </View>
+    )
+  }
 
   let aspectRatio: number | undefined
   const dims = embed.aspectRatio
@@ -96,8 +175,12 @@ export function VideoEmbed({embed}: {embed: AppBskyEmbedVideo.View}) {
         display: 'flex',
         flex: 1,
         cursor: 'default',
-        backgroundColor: t.palette.black,
-        backgroundImage: `url(${embed.thumbnail})`,
+        backgroundColor: altTextFirstEnabled
+          ? t.atoms.bg_contrast_25.backgroundColor
+          : t.palette.black,
+        backgroundImage: altTextFirstEnabled
+          ? 'none'
+          : `url(${embed.thumbnail})`,
         backgroundSize: 'contain',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -110,7 +193,7 @@ export function VideoEmbed({embed}: {embed: AppBskyEmbedVideo.View}) {
             active={active}
             setActive={setActive}
             onScreen={onScreen}
-            lastKnownTime={lastKnownTime}
+            lastKnownTimeRef={lastKnownTimeRef}
           />
         </OnlyNearScreen>
       </ErrorBoundary>

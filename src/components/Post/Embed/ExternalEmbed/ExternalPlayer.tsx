@@ -26,7 +26,10 @@ import {
   type EmbedPlayerParams,
   getPlayerAspect,
 } from '#/lib/strings/embed-player'
-import {useExternalEmbedsPrefs} from '#/state/preferences'
+import {
+  useAltTextFirstEnabled,
+  useExternalEmbedsPrefs,
+} from '#/state/preferences'
 import {EventStopper} from '#/view/com/util/EventStopper'
 import {atoms as a, useTheme} from '#/alf'
 import {useDialogControl} from '#/components/Dialog'
@@ -127,6 +130,7 @@ export function ExternalPlayer({
   const insets = useSafeAreaInsets()
   const windowDims = useWindowDimensions()
   const externalEmbedsPrefs = useExternalEmbedsPrefs()
+  const altTextFirstEnabled = useAltTextFirstEnabled()
   const consentDialogControl = useDialogControl()
 
   const [isPlayerActive, setPlayerActive] = useState(false)
@@ -220,7 +224,9 @@ export function ExternalPlayer({
         ref={viewRef}
         collapsable={false}
         style={[aspect, a.overflow_hidden]}>
-        {link.thumb && (!isPlayerActive || isLoading) ? (
+        {link.thumb &&
+        !altTextFirstEnabled &&
+        (!isPlayerActive || isLoading) ? (
           <>
             <Image
               style={[a.flex_1]}

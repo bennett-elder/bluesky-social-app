@@ -1,4 +1,4 @@
-import {useRef, useState} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import {Pressable, View} from 'react-native'
 import {Image} from 'expo-image'
 import {type AppBskyEmbedVideo} from '@atproto/api'
@@ -7,7 +7,7 @@ import {BlueskyVideoView} from '@haileyok/bluesky-video'
 import {msg} from '@lingui/core/macro'
 import {useLingui} from '@lingui/react'
 
-import {useAutoplayDisabled} from '#/state/preferences'
+import {useAltTextFirstEnabled, useAutoplayDisabled} from '#/state/preferences'
 import {atoms as a, useTheme} from '#/alf'
 import {ArrowsDiagonalOut_Stroke2_Corner0_Rounded as ExpandIcon} from '#/components/icons/ArrowsDiagonal'
 import {Mute_Stroke2_Corner0_Rounded as MuteIcon} from '#/components/icons/Mute'
@@ -31,10 +31,36 @@ type VideoState = 'collapsed' | 'showingThumbnail' | 'playing'
 export function AltTextVideoEmbed({embed}: AltTextVideoEmbedProps) {
   const t = useTheme()
   const {_} = useLingui()
-  const [state, setState] = useState<VideoState>('collapsed')
   const videoRef = useRef<BlueskyVideoView>(null)
   const autoplayDisabled = useAutoplayDisabled()
+  const altTextFirstEnabled = useAltTextFirstEnabled()
   const [muted, setMuted] = useVideoMuteState()
+
+  // Set initial state based on altTextFirstEnabled setting
+  // When enabled: start collapsed (alt text only)
+  // When disabled: start showing thumbnail (normal behavior)
+  const [state, setState] = useState<VideoState>(() =>
+    altTextFirstEnabled ? 'collapsed' : 'showingThumbnail',
+  )
+
+  // Debug logging
+  console.log(
+    'AltTextVideoEmbed: altTextFirstEnabled =',
+    altTextFirstEnabled,
+    'state =',
+    state,
+  )
+
+  // Update state when setting changes (only if in 'showingThumbnail' or 'collapsed' state)
+  useEffect(() => {
+    if (state === 'showingThumbnail' && altTextFirstEnabled) {
+      // Setting was enabled while showing thumbnail - collapse
+      setState('collapsed')
+    } else if (state === 'collapsed' && !altTextFirstEnabled) {
+      // Setting was disabled while collapsed - show thumbnail
+      setState('showingThumbnail')
+    }
+  }, [altTextFirstEnabled, state])
 
   const hasAlt = !!embed.alt
   const altText = embed.alt || _(msg`Video`)

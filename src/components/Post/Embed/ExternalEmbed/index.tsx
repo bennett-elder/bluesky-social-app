@@ -9,7 +9,10 @@ import {useHaptics} from '#/lib/haptics'
 import {shareUrl} from '#/lib/sharing'
 import {parseEmbedPlayerFromUrl} from '#/lib/strings/embed-player'
 import {toNiceDomain} from '#/lib/strings/url-helpers'
-import {useExternalEmbedsPrefs} from '#/state/preferences'
+import {
+  useAltTextFirstEnabled,
+  useExternalEmbedsPrefs,
+} from '#/state/preferences'
 import {atoms as a, useTheme} from '#/alf'
 import {Divider} from '#/components/Divider'
 import {Earth_Stroke2_Corner0_Rounded as Globe} from '#/components/icons/Globe'
@@ -36,6 +39,7 @@ export const ExternalEmbed = ({
   const t = useTheme()
   const playHaptic = useHaptics()
   const externalEmbedPrefs = useExternalEmbedsPrefs()
+  const altTextFirstEnabled = useAltTextFirstEnabled()
   const niceUrl = toNiceDomain(link.uri)
   const imageUri = link.thumb
   const embedPlayerParams = useMemo(() => {
@@ -45,6 +49,15 @@ export const ExternalEmbed = ({
       return params
     }
   }, [link.uri, externalEmbedPrefs])
+  const isEmbedPlayerHidden = useMemo(() => {
+    const params = parseEmbedPlayerFromUrl(link.uri)
+    // Hide thumbnail if alt-text-first mode is enabled and this is a known embed player type
+    if (altTextFirstEnabled) {
+      return params !== null
+    }
+    // Also hide if explicitly hidden in prefs
+    return params && externalEmbedPrefs?.[params.source] === 'hide'
+  }, [link.uri, externalEmbedPrefs, altTextFirstEnabled])
   const hasMedia = Boolean(imageUri || embedPlayerParams)
 
   const onPress = useCallback(() => {
@@ -95,7 +108,7 @@ export const ExternalEmbed = ({
               ? t.atoms.border_contrast_high
               : t.atoms.border_contrast_low,
           ]}>
-          {imageUri && !embedPlayerParams ? (
+          {imageUri && !embedPlayerParams && !isEmbedPlayerHidden ? (
             <View style={[a.px_sm, a.pb_xs]}>
               <AltTextLinkThumbnail
                 imageUri={imageUri}
