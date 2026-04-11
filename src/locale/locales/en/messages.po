@@ -1235,7 +1235,7 @@ msgstr "An error occurred while loading the GIF. Please try again later."
 msgid "An error occurred while loading the video. Please try again later."
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/index.web.tsx:239
+#: src/components/Post/Embed/VideoEmbed/index.web.tsx:322
 msgid "An error occurred while loading the video. Please try again."
 msgstr ""
 
@@ -2379,8 +2379,8 @@ msgstr ""
 msgid "Close this dialog"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:134
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:204
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:160
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:230
 msgid "Close video"
 msgstr "Close video"
 
@@ -2417,11 +2417,11 @@ msgstr "Closes the GIF preview"
 msgid "Closes the thumbnail preview"
 msgstr "Closes the thumbnail preview"
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:205
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:231
 msgid "Closes the video player"
 msgstr "Closes the video player"
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:135
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:161
 msgid "Closes the video preview"
 msgstr "Closes the video preview"
 
@@ -3668,7 +3668,7 @@ msgstr ""
 msgid "Embed this post in your website. Simply copy the following snippet and paste it into the HTML code of your website."
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerWeb.tsx:57
+#: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerWeb.tsx:65
 msgid "Embedded video player"
 msgstr ""
 
@@ -6291,7 +6291,7 @@ msgstr ""
 msgid "Music"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:290
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:316
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:171
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/web-controls/VolumeControl.tsx:97
 msgctxt "video"
@@ -7057,7 +7057,7 @@ msgstr ""
 msgid "Open Germ DM"
 msgstr ""
 
-#: src/components/Post/Embed/ExternalEmbed/index.tsx:79
+#: src/components/Post/Embed/ExternalEmbed/index.tsx:92
 msgid "Open link to {niceUrl}"
 msgstr ""
 
@@ -7327,13 +7327,13 @@ msgstr ""
 msgid "Password updated!"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:272
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:298
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:155
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/web-controls/VideoControls.tsx:395
 msgid "Pause"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:248
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:274
 #: src/components/Post/Embed/VideoEmbed/GifPresentationControls.tsx:36
 msgid "Pause GIF"
 msgstr ""
@@ -7342,7 +7342,7 @@ msgstr ""
 msgid "Pause video"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:251
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:277
 msgid "Pauses the GIF"
 msgstr "Pauses the GIF"
 
@@ -7448,7 +7448,7 @@ msgstr ""
 msgid "Pinned to your feeds"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:272
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:298
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:155
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/web-controls/VideoControls.tsx:396
 msgid "Play"
@@ -7460,17 +7460,17 @@ msgid "Play {0}"
 msgstr ""
 
 #: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:172
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:248
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:274
 #: src/components/Post/Embed/VideoEmbed/GifPresentationControls.tsx:36
 msgid "Play GIF"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:160
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:186
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/web-controls/VideoControls.tsx:347
 msgid "Play video"
 msgstr ""
 
-#: src/components/Post/Embed/ExternalEmbed/ExternalPlayer.tsx:61
+#: src/components/Post/Embed/ExternalEmbed/ExternalPlayer.tsx:64
 msgid "Play Video"
 msgstr ""
 
@@ -7478,17 +7478,17 @@ msgstr ""
 msgid "Plays or pauses the GIF"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:273
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:299
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:156
 msgid "Plays or pauses the video"
 msgstr ""
 
 #: src/components/Post/Embed/ExternalEmbed/ExternalGif.tsx:109
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:251
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:277
 msgid "Plays the GIF"
 msgstr ""
 
-#: src/components/Post/Embed/ExternalEmbed/ExternalPlayer.tsx:62
+#: src/components/Post/Embed/ExternalEmbed/ExternalPlayer.tsx:65
 msgid "Plays the video"
 msgstr ""
 
@@ -9808,7 +9808,7 @@ msgstr ""
 msgid "Starts playing the GIF"
 msgstr "Starts playing the GIF"
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:161
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:187
 msgid "Starts playing the video"
 msgstr "Starts playing the video"
 
@@ -10016,11 +10016,11 @@ msgstr ""
 msgid "Tap to play GIF"
 msgstr "Tap to play GIF"
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:267
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:293
 msgid "Tap to play or pause"
 msgstr "Tap to play or pause"
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:148
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:174
 msgid "Tap to play video"
 msgstr "Tap to play video"
 
@@ -10040,7 +10040,8 @@ msgstr "Tap to view image"
 msgid "Tap to view thumbnail"
 msgstr "Tap to view thumbnail"
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:87
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:113
+#: src/components/Post/Embed/VideoEmbed/index.web.tsx:130
 msgid "Tap to view video thumbnail"
 msgstr "Tap to view video thumbnail"
 
@@ -10725,7 +10726,7 @@ msgstr ""
 msgid "Toggle to enable or disable adult content"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:292
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:318
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:173
 msgid "Toggles the sound"
 msgstr ""
@@ -11003,7 +11004,7 @@ msgstr ""
 msgid "Unmute"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:289
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:315
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:170
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/web-controls/VolumeControl.tsx:96
 msgctxt "video"
@@ -11421,9 +11422,10 @@ msgstr ""
 msgid "Version {0}"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:40
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:229
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:266
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:66
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:255
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:292
+#: src/components/Post/Embed/VideoEmbed/index.web.tsx:118
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:87
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:149
 msgid "Video"
@@ -11460,7 +11462,7 @@ msgstr ""
 msgid "Video is playing"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/index.web.tsx:232
+#: src/components/Post/Embed/VideoEmbed/index.web.tsx:315
 msgid "Video not found."
 msgstr ""
 
@@ -11473,7 +11475,7 @@ msgid "Video uploaded"
 msgstr ""
 
 #. placeholder {0}: embed.alt
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:229
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:255
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:87
 msgid "Video: {0}"
 msgstr ""
@@ -12518,7 +12520,7 @@ msgstr ""
 msgid "Your birth date"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/index.web.tsx:236
+#: src/components/Post/Embed/VideoEmbed/index.web.tsx:319
 msgid "Your browser does not support the video format. Please try a different browser."
 msgstr ""
 
