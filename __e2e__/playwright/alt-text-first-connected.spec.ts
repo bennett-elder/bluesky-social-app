@@ -7,18 +7,25 @@ import {
   test,
 } from '@playwright/test'
 
-// This test connects to your existing Chrome profile with remote debugging enabled
 // Prerequisites:
-// 1. Start Chrome: pkill -9 -f "Google Chrome"; nohup "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --remote-debugging-port=9222 --user-data-dir=/tmp/chrome-test-profile > /tmp/chrome.log 2>&1 &
+// 1. Start Chrome with remote debugging:
+//    pkill -9 -f "Google Chrome"
+//    nohup "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+//      --remote-debugging-port=9222 --user-data-dir=/tmp/chrome-test-profile \
+//      > /tmp/chrome.log 2>&1 &
 // 2. Start dev server: cd bluesky-social-app && yarn web
-// 3. Log in to Bluesky in Chrome at http://localhost:19006
+// 3. Log in to Bluesky at http://localhost:19006
 // Then run: yarn e2e:playwright --grep "connected"
 
-interface AppState {
-  preferences?: {altTextFirstEnabled?: boolean}
-}
+const APP_URL = 'http://localhost:19006'
+const SETTINGS_URL = `${APP_URL}/settings/content-and-media`
+const YOUTUBE_SEARCH_URL =
+  `${APP_URL}/search?q=` + encodeURIComponent('youtube.com/watch')
+const IMAGE_SEARCH_URL = `${APP_URL}/search?q=` + encodeURIComponent('photo')
 
-test.describe('Oops! All text (connected to your Chrome profile)', () => {
+test.describe.configure({mode: 'serial'})
+
+test.describe('Alt-text-first mode (connected)', () => {
   let browser: Browser
   let context: BrowserContext
 
@@ -34,215 +41,202 @@ test.describe('Oops! All text (connected to your Chrome profile)', () => {
     }
   })
 
-  async function setAltTextFirst(page: Page, enabled: boolean) {
-    await page.evaluate(value => {
-      const stored = localStorage.getItem('state')
-      let state: AppState = stored ? JSON.parse(stored) : {}
-      if (!state.preferences) state.preferences = {}
-      state.preferences.altTextFirstEnabled = value
-      localStorage.setItem('state', JSON.stringify(state))
-    }, enabled)
+  async function isOopsAllTextEnabled(page: Page): Promise<boolean> {
+    await page.goto(SETTINGS_URL)
+    await page.waitForLoadState('networkidle', {timeout: 60000})
+    const toggle = page.getByText('Oops! All text').first()
+    await toggle.waitFor({timeout: 15000})
+    // The toggle row — find the parent that has aria-checked
+    const row = page
+      .locator('[aria-checked]')
+      .filter({hasText: 'Oops! All text'})
+    const checked = await row.getAttribute('aria-checked')
+    return checked === 'true'
   }
 
-  async function getAltTextFirstState(page: Page) {
-    return await page.evaluate(() => {
-      const stored = localStorage.getItem('state')
-      if (stored) {
-        const state = JSON.parse(stored) as AppState
-        return state.preferences?.altTextFirstEnabled
-      }
-      return false
-    })
+  async function setOopsAllText(page: Page, enabled: boolean) {
+    const current = await isOopsAllTextEnabled(page)
+    if (current !== enabled) {
+      await page.getByText('Oops! All text').first().click()
+      await page.waitForTimeout(500)
+    }
   }
 
-  async function inspectDOM(page: Page) {
-    // Scroll to trigger lazy loading
-    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight))
-    await page.waitForTimeout(1000)
-    await page.evaluate(() => window.scrollTo(0, 0))
+  async function loadSearch(page: Page, url: string) {
+    await page.goto(url)
+    await page.waitForLoadState('networkidle', {timeout: 60000})
+    await page.waitForTimeout(2000)
+  }
+
+  function feedThumbnails(page: Page) {
+    return page.locator('img[src*="cdn.bsky.app/img/feed_thumbnail"]')
+  }
+
+  test('"Oops! All text" toggle can be turned on and off', async () => {
+    const page = await context.newPage()
+
+    // Turn on
+    await setOopsAllText(page, true)
+    expect(await isOopsAllTextEnabled(page)).toBe(true)
+
+    // Turn off
+    await setOopsAllText(page, false)
+    expect(await isOopsAllTextEnabled(page)).toBe(false)
+
+    await page.close()
+  })
+
+  test('external embeds show "Show Thumbnail" buttons when "Oops! All text" is on', async () => {
+    const page = await context.newPage()
+
+    await setOopsAllText(page, true)
+    await loadSearch(page, YOUTUBE_SEARCH_URL)
+
+    const buttons = page.getByText('Show Thumbnail')
+    await expect(buttons.first()).toBeVisible({timeout: 15000})
+    expect(await buttons.count()).toBeGreaterThan(0)
+
+    await page.close()
+  })
+
+  test('external embeds show no "Show Thumbnail" buttons when "Oops! All text" is off', async () => {
+    const page = await context.newPage()
+
+    await setOopsAllText(page, false)
+    await loadSearch(page, YOUTUBE_SEARCH_URL)
+
+    expect(await page.getByText('Show Thumbnail').count()).toBe(0)
+
+    await page.close()
+  })
+
+  test('clicking "Show Thumbnail" reveals the thumbnail and removes the button', async () => {
+    const page = await context.newPage()
+
+    await setOopsAllText(page, true)
+    await loadSearch(page, YOUTUBE_SEARCH_URL)
+
+    const buttonsBefore = await page.getByText('Show Thumbnail').count()
+    expect(buttonsBefore).toBeGreaterThan(0)
+
+    const thumbsBefore = await feedThumbnails(page).count()
+
+    await page.getByText('Show Thumbnail').first().click()
     await page.waitForTimeout(500)
 
-    // Get detailed DOM info
-    const domInfo = await page.evaluate(() => {
-      const images = document.querySelectorAll('img')
-      // YouTube thumbnails are proxied through cdn.bsky.app/img/feed_thumbnail/plain/
-      const videoThumbnails = document.querySelectorAll(
-        'img[src*="cdn.bsky.app/img/feed_thumbnail"]',
-      )
-      const allThumbnailSrcs = Array.from(images)
-        .map(img => img.src)
-        .filter(src => src.includes('cdn.bsky.app/img/feed_thumbnail'))
+    expect(await page.getByText('Show Thumbnail').count()).toBe(
+      buttonsBefore - 1,
+    )
+    expect(await feedThumbnails(page).count()).toBe(thumbsBefore + 1)
 
-      return {
-        totalImages: images.length,
-        videoThumbnails: videoThumbnails.length,
-        thumbnailSrcs: allThumbnailSrcs.slice(0, 5), // First 5 thumbnail srcs
-      }
+    await page.close()
+  })
+
+  test('"Hide thumbnail" button collapses the thumbnail back to alt text', async () => {
+    const page = await context.newPage()
+
+    await setOopsAllText(page, true)
+    await loadSearch(page, YOUTUBE_SEARCH_URL)
+
+    const showButtons = page.getByText('Show Thumbnail')
+    await expect(showButtons.first()).toBeVisible({timeout: 15000})
+    const countBefore = await showButtons.count()
+
+    await showButtons.first().click()
+    await page.waitForTimeout(500)
+
+    // Hide thumbnail button should now be visible (icon-only, found by aria-label)
+    const hideButton = page.getByLabel('Hide thumbnail').first()
+    await expect(hideButton).toBeVisible({timeout: 5000})
+
+    await hideButton.click()
+    await page.waitForTimeout(500)
+
+    // Collapsed — Show Thumbnail count restored
+    expect(await page.getByText('Show Thumbnail').count()).toBe(countBefore)
+
+    await page.close()
+  })
+
+  test('"Hide thumbnail" button does not open the link in a new tab', async () => {
+    const page = await context.newPage()
+
+    await setOopsAllText(page, true)
+    await loadSearch(page, YOUTUBE_SEARCH_URL)
+
+    await page.getByText('Show Thumbnail').first().click()
+    await page.waitForTimeout(500)
+
+    const hideButton = page.getByLabel('Hide thumbnail').first()
+    await expect(hideButton).toBeVisible({timeout: 5000})
+
+    const pagesBefore = context.pages().length
+    await hideButton.click()
+    await page.waitForTimeout(1000)
+
+    expect(context.pages().length).toBe(pagesBefore)
+
+    await page.close()
+  })
+
+  test('clicking "Show Thumbnail" does not open the link in a new tab', async () => {
+    const page = await context.newPage()
+
+    await setOopsAllText(page, true)
+    await loadSearch(page, YOUTUBE_SEARCH_URL)
+
+    await expect(page.getByText('Show Thumbnail').first()).toBeVisible({
+      timeout: 15000,
     })
 
-    return domInfo
-  }
+    const pagesBefore = context.pages().length
+    await page.getByText('Show Thumbnail').first().click()
+    await page.waitForTimeout(1000)
 
-  const youtubeLinkTypes = [
-    {name: 'YouTube Shorts', query: 'youtube.com/shorts'},
-    {name: 'YouTube Videos', query: 'youtube.com/watch'},
-    {name: 'YouTube Playlists', query: 'youtube.com/playlist'},
-    {name: 'YouTube Live', query: 'youtube.com/live'},
-  ]
+    expect(context.pages().length).toBe(pagesBefore)
 
-  test('should verify alt-text-first setting can be toggled', async () => {
-    const page = await context.newPage()
-
-    await page.goto('http://localhost:19006')
-    await page.waitForLoadState('networkidle', {timeout: 60000})
-
-    const isLoggedIn = await page
-      .isVisible(
-        '[data-testid="profileHeaderMenuBtn"], [data-testid="bottomBarProfileBtn"]',
-      )
-      .catch(() => false)
-    console.log('Are you logged in?', isLoggedIn)
-
-    let altTextFirstEnabled = await getAltTextFirstState(page)
-    console.log('Initial altTextFirstEnabled value:', altTextFirstEnabled)
-
-    await setAltTextFirst(page, true)
-    altTextFirstEnabled = await getAltTextFirstState(page)
-    console.log('After enabling:', altTextFirstEnabled)
-    expect(altTextFirstEnabled).toBe(true)
-
-    await setAltTextFirst(page, false)
-    altTextFirstEnabled = await getAltTextFirstState(page)
-    console.log('After disabling:', altTextFirstEnabled)
-    expect(altTextFirstEnabled).toBe(false)
-
-    console.log('✅ Setting toggle test passed')
     await page.close()
   })
 
-  test('should verify YouTube embeds with alt-text-first ENABLED then DISABLED', async () => {
+  test('image posts show no inline images when "Oops! All text" is on', async () => {
     const page = await context.newPage()
 
-    console.log('\n' + '='.repeat(60))
-    console.log('PHASE 1: Testing with alt-text-first ENABLED')
-    console.log('='.repeat(60))
+    await setOopsAllText(page, true)
+    await loadSearch(page, IMAGE_SEARCH_URL)
 
-    await page.goto('http://localhost:19006')
-    await page.waitForLoadState('networkidle', {timeout: 60000})
-    await setAltTextFirst(page, true)
-    await page.reload()
-    await page.waitForLoadState('networkidle', {timeout: 60000})
+    // With alt-text-first on, both image embeds and video thumbnails collapse
+    // so no feed_thumbnail images should be rendered
+    expect(await feedThumbnails(page).count()).toBe(0)
 
-    let totalThumbnailsEnabled = 0
-    for (const linkType of youtubeLinkTypes) {
-      console.log(`\n--- Testing: ${linkType.name} (ENABLED) ---`)
-      await page.goto(
-        `http://localhost:19006/search?q=${encodeURIComponent(linkType.query)}`,
-      )
-      await page.waitForLoadState('networkidle', {timeout: 60000})
-      await page.waitForTimeout(3000)
-
-      const domInfo = await inspectDOM(page)
-      console.log(`  Total images: ${domInfo.totalImages}`)
-      console.log(`  Video thumbnails: ${domInfo.videoThumbnails}`)
-      if (domInfo.thumbnailSrcs.length > 0) {
-        console.log(`  Thumbnail srcs: ${domInfo.thumbnailSrcs.join(', ')}`)
-      }
-      totalThumbnailsEnabled += domInfo.videoThumbnails
-    }
-
-    console.log('\n' + '='.repeat(60))
-    console.log('PHASE 2: Testing with alt-text-first DISABLED')
-    console.log('='.repeat(60))
-
-    await page.goto('http://localhost:19006')
-    await page.waitForLoadState('networkidle', {timeout: 60000})
-    await setAltTextFirst(page, false)
-    await page.reload()
-    await page.waitForLoadState('networkidle', {timeout: 60000})
-
-    let totalThumbnailsDisabled = 0
-    for (const linkType of youtubeLinkTypes) {
-      console.log(`\n--- Testing: ${linkType.name} (DISABLED) ---`)
-      await page.goto(
-        `http://localhost:19006/search?q=${encodeURIComponent(linkType.query)}`,
-      )
-      await page.waitForLoadState('networkidle', {timeout: 60000})
-      await page.waitForTimeout(3000)
-
-      const domInfo = await inspectDOM(page)
-      console.log(`  Total images: ${domInfo.totalImages}`)
-      console.log(`  Video thumbnails: ${domInfo.videoThumbnails}`)
-      if (domInfo.thumbnailSrcs.length > 0) {
-        console.log(`  Thumbnail srcs: ${domInfo.thumbnailSrcs.join(', ')}`)
-      }
-      totalThumbnailsDisabled += domInfo.videoThumbnails
-    }
-
-    console.log('\n' + '='.repeat(60))
-    console.log('SUMMARY')
-    console.log('='.repeat(60))
-    console.log(
-      `Total thumbnails with alt-text-first ENABLED: ${totalThumbnailsEnabled}`,
-    )
-    console.log(
-      `Total thumbnails with alt-text-first DISABLED: ${totalThumbnailsDisabled}`,
-    )
-
-    // When alt-text-first is enabled, there should be fewer (or zero) thumbnails
-    // When disabled, there should be more thumbnails visible
-    console.log('\n✅ All YouTube embed tests complete')
     await page.close()
   })
 
-  test('should verify internal video embed behavior with alt-text-first setting', async () => {
+  test('image posts show inline images when "Oops! All text" is off', async () => {
     const page = await context.newPage()
 
-    console.log('\n' + '='.repeat(60))
-    console.log('Testing internal video embed with alt-text-first ENABLED')
-    console.log('='.repeat(60))
+    await setOopsAllText(page, false)
+    await loadSearch(page, IMAGE_SEARCH_URL)
 
-    // Navigate to a post with an internal video embed
-    await page.goto(
-      'http://localhost:19006/profile/lucagalletti.bsky.social/post/3mirf6lwcss2x',
-    )
-    await page.waitForLoadState('networkidle', {timeout: 60000})
-    await page.waitForTimeout(3000)
+    expect(await feedThumbnails(page).count()).toBeGreaterThan(0)
 
-    // Enable alt-text-first
-    await setAltTextFirst(page, true)
+    await page.close()
+  })
+
+  test('"Oops! All text" setting persists across page reload', async () => {
+    const page = await context.newPage()
+
+    await setOopsAllText(page, true)
+    expect(await isOopsAllTextEnabled(page)).toBe(true)
+
+    // Reload — app re-reads from persisted storage
     await page.reload()
     await page.waitForLoadState('networkidle', {timeout: 60000})
-    await page.waitForTimeout(3000)
 
-    // Check that no video thumbnail images are visible (should be collapsed)
-    const domInfoEnabled = await inspectDOM(page)
-    console.log(`  With alt-text-first ENABLED:`)
-    console.log(`    Total images: ${domInfoEnabled.totalImages}`)
-    console.log(`    Video thumbnails: ${domInfoEnabled.videoThumbnails}`)
+    expect(await isOopsAllTextEnabled(page)).toBe(true)
 
-    // The video should start collapsed (no thumbnail visible)
-    // Note: This is a basic check - a full test would verify the alt text box is visible
+    // Leave the setting off so we don't interfere with manual browsing
+    await setOopsAllText(page, false)
 
-    console.log('\n' + '='.repeat(60))
-    console.log('Testing internal video embed with alt-text-first DISABLED')
-    console.log('='.repeat(60))
-
-    // Disable alt-text-first
-    await setAltTextFirst(page, false)
-    await page.reload()
-    await page.waitForLoadState('networkidle', {timeout: 60000})
-    await page.waitForTimeout(3000)
-
-    // Check that video thumbnail images are visible
-    const domInfoDisabled = await inspectDOM(page)
-    console.log(`  With alt-text-first DISABLED:`)
-    console.log(`    Total images: ${domInfoDisabled.totalImages}`)
-    console.log(`    Video thumbnails: ${domInfoDisabled.videoThumbnails}`)
-
-    // The video should start with thumbnail visible
-
-    console.log('\n✅ Internal video embed test complete')
     await page.close()
   })
 })

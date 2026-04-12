@@ -24,7 +24,7 @@ export function AltTextImage({image, index, onPress}: AltTextImageProps) {
   const [isExpanded, setIsExpanded] = useState(false)
 
   const hasAlt = !!image.alt
-  const altText = hasAlt ? image.alt : 'No Alt Text,\nCoal In Stocking'
+  const altText = hasAlt ? image.alt : 'No Alt Text'
 
   const handlePress = () => {
     if (isExpanded) {

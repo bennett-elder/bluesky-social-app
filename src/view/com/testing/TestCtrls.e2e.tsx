@@ -97,6 +97,12 @@ export function TestCtrls() {
         style={BTN}
       />
       <Pressable
+        testID="e2eGotoContentAndMedia"
+        onPress={() => navigate('ContentAndMediaSettings')}
+        accessibilityRole="button"
+        style={BTN}
+      />
+      <Pressable
         testID="e2eGotoModeration"
         onPress={() => navigate('Moderation')}
         accessibilityRole="button"

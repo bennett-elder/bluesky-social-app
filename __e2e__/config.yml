@@ -1,2 +1,4 @@
+appId: xyz.blueskyweb.app
+---
 flows:
   - "flows/**"

@@ -5,7 +5,7 @@ import {utils} from '@bsky.app/alf'
 import {msg} from '@lingui/core/macro'
 import {useLingui} from '@lingui/react'
 
-import {useAutoplayDisabled} from '#/state/preferences'
+import {useAltTextFirstEnabled, useAutoplayDisabled} from '#/state/preferences'
 import {atoms as a, useTheme} from '#/alf'
 import {ArrowsDiagonalOut_Stroke2_Corner0_Rounded as ExpandIcon} from '#/components/icons/ArrowsDiagonal'
 import {TimesLarge_Stroke2_Corner0_Rounded as CloseIcon} from '#/components/icons/Times'
@@ -30,14 +30,17 @@ export function AltTextGifEmbed({
 }: AltTextGifEmbedProps) {
   const t = useTheme()
   const {_} = useLingui()
-  const [state, setState] = useState<GifState>('collapsed')
+  const altTextFirstEnabled = useAltTextFirstEnabled()
+  const [state, setState] = useState<GifState>(() =>
+    altTextFirstEnabled ? 'collapsed' : 'showingThumbnail',
+  )
   const gifRef = useRef<GifView>(null)
   const _autoplayDisabled = useAutoplayDisabled()
 
   const hasAlt = !!altText
-  const displayAltText = hasAlt ? altText : 'No Alt Text,\nCoal In Stocking'
+  const displayAltText = hasAlt ? altText : 'No Alt Text'
 
-  const [_isPlaying, setIsPlaying] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(false)
 
   const handleExpand = () => {
     setState('showingThumbnail')
@@ -49,8 +52,10 @@ export function AltTextGifEmbed({
   }
 
   const handleCollapse = () => {
-    // Pause GIF when collapsing
-    gifRef.current?.toggleAsync()
+    // Pause GIF when collapsing (only if playing, to avoid restarting a paused GIF)
+    if (isPlaying) {
+      gifRef.current?.toggleAsync()
+    }
     setState('collapsed')
     setIsPlaying(false)
   }

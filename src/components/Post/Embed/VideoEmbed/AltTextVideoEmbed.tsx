@@ -42,23 +42,21 @@ export function AltTextVideoEmbed({embed}: AltTextVideoEmbedProps) {
   const [state, setState] = useState<VideoState>(() =>
     altTextFirstEnabled ? 'collapsed' : 'showingThumbnail',
   )
+  const userInteractedRef = useRef(false)
 
-  // Debug logging
-  console.log(
-    'AltTextVideoEmbed: altTextFirstEnabled =',
-    altTextFirstEnabled,
-    'state =',
-    state,
-  )
-
-  // Update state when setting changes (only if in 'showingThumbnail' or 'collapsed' state)
+  // Update state when setting changes (only if user hasn't manually interacted)
+  const altTextFirstEnabledRef = useRef(altTextFirstEnabled)
   useEffect(() => {
-    if (state === 'showingThumbnail' && altTextFirstEnabled) {
-      // Setting was enabled while showing thumbnail - collapse
-      setState('collapsed')
-    } else if (state === 'collapsed' && !altTextFirstEnabled) {
-      // Setting was disabled while collapsed - show thumbnail
-      setState('showingThumbnail')
+    if (userInteractedRef.current) return
+    if (altTextFirstEnabledRef.current !== altTextFirstEnabled) {
+      altTextFirstEnabledRef.current = altTextFirstEnabled
+      if (state === 'showingThumbnail' && altTextFirstEnabled) {
+        // Setting was enabled while showing thumbnail - collapse
+        setState('collapsed')
+      } else if (state === 'collapsed' && !altTextFirstEnabled) {
+        // Setting was disabled while collapsed - show thumbnail
+        setState('showingThumbnail')
+      }
     }
   }, [altTextFirstEnabled, state])
 
@@ -70,16 +68,21 @@ export function AltTextVideoEmbed({embed}: AltTextVideoEmbedProps) {
   const [timeRemaining, setTimeRemaining] = useState(0)
 
   const handleExpand = () => {
+    userInteractedRef.current = true
     setState('showingThumbnail')
   }
 
   const handlePlay = () => {
+    userInteractedRef.current = true
     setState('playing')
   }
 
   const handleCollapse = () => {
-    // Stop video when collapsing
-    videoRef.current?.togglePlayback()
+    // Stop video when collapsing (only if playing, to avoid restarting a paused video)
+    if (isPlaying) {
+      videoRef.current?.togglePlayback()
+    }
+    userInteractedRef.current = true
     setState('collapsed')
     setIsPlaying(false)
   }

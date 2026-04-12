@@ -54,6 +54,24 @@ createHTTPServer(async (req, res) => {
           await server.mocker.users[user].agent.post({text: 'Post'})
         }
       }
+      if ('imageposts' in url.query) {
+        console.log('Generating mock image posts')
+        for (let i = 0; i < 3; i++) {
+          await server.mocker.createImagePost('bob', `Image post ${i}`)
+        }
+      }
+      if ('linkposts' in url.query) {
+        console.log('Generating mock link posts')
+        for (let i = 0; i < 3; i++) {
+          await server.mocker.createLinkPost('bob', `Link post ${i}`)
+        }
+      }
+      if ('gifposts' in url.query) {
+        console.log('Generating mock GIF posts')
+        for (let i = 0; i < 3; i++) {
+          await server.mocker.createGifPost('bob', `GIF post ${i}`)
+        }
+      }
       if ('feeds' in url.query) {
         console.log('Generating mock feed')
         await server.mocker.createFeed('alice', 'alice-favs', [])

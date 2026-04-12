@@ -1,0 +1,43 @@
+appId: xyz.blueskyweb.app
+---
+- runScript:
+    file: ../setupServer.js
+    env:
+      SERVER_PATH: "?users&follows&imageposts"
+- runFlow:
+    file: ../setupApp.yml
+- tapOn:
+    id: "e2eSignInAlice"
+- extendedWaitUntil:
+    visible:
+      id: "viewHeaderHomeFeedPrefsBtn"
+- tapOn:
+    id: "e2eRefreshHome"
+- waitForAnimationToEnd
+
+# Default: setting off — no collapsed alt-text boxes
+- assertNotVisible: "No Alt Text"
+
+# Enable "Oops! All text"
+- tapOn:
+    id: "e2eGotoContentAndMedia"
+- tapOn: "Oops! All text"
+- tapOn:
+    id: "e2eGotoHome"
+- tapOn:
+    id: "e2eRefreshHome"
+- waitForAnimationToEnd
+
+# Setting on — images collapsed, "No Alt Text" shown for images without alt text
+- assertVisible: "No Alt Text"
+
+# Tap to expand the image
+- tapOn: "No Alt Text"
+
+# Expanded — close button now visible
+- assertVisible: "Hide image"
+
+# Disable "Oops! All text" (cleanup)
+- tapOn:
+    id: "e2eGotoContentAndMedia"
+- tapOn: "Oops! All text"

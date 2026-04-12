@@ -1,0 +1,51 @@
+appId: xyz.blueskyweb.app
+---
+- runScript:
+    file: ../setupServer.js
+    env:
+      SERVER_PATH: "?users&follows&linkposts"
+- runFlow:
+    file: ../setupApp.yml
+- tapOn:
+    id: "e2eSignInAlice"
+- extendedWaitUntil:
+    visible:
+      id: "viewHeaderHomeFeedPrefsBtn"
+- tapOn:
+    id: "e2eRefreshHome"
+- waitForAnimationToEnd
+
+# Default: setting off — thumbnails shown inline, no "Show Thumbnail" buttons
+- assertNotVisible: "Show Thumbnail"
+
+# Enable "Oops! All text"
+- tapOn:
+    id: "e2eGotoContentAndMedia"
+- tapOn: "Oops! All text"
+- tapOn:
+    id: "e2eGotoHome"
+- tapOn:
+    id: "e2eRefreshHome"
+- waitForAnimationToEnd
+
+# Setting on — link thumbnails collapsed, "Show Thumbnail" buttons visible
+- assertVisible: "Show Thumbnail"
+
+# Tap to expand
+- tapOn: "Show Thumbnail"
+
+# Expanded — "Hide thumbnail" button now visible (icon-only, found by label)
+- assertVisible:
+    text: "Hide thumbnail"
+
+# Tap to collapse back
+- tapOn:
+    text: "Hide thumbnail"
+
+# Collapsed again — "Show Thumbnail" is back
+- assertVisible: "Show Thumbnail"
+
+# Disable "Oops! All text" (cleanup)
+- tapOn:
+    id: "e2eGotoContentAndMedia"
+- tapOn: "Oops! All text"

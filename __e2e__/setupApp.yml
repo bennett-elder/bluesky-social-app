@@ -9,12 +9,7 @@ appId: xyz.blueskyweb.app
     when:
       platform: iOS
     commands:
-      - openLink: "exp+bluesky://expo-development-client/?url=http%3A%2F%2Flocalhost%3A8081"
-      - runFlow:
-          when:
-            visible: 'Open in "Bluesky"'
-          commands:
-            - tapOn: Open
+      - tapOn: 'http://localhost:8081'
 - runFlow:
     when:
       platform: Android
@@ -26,6 +21,10 @@ appId: xyz.blueskyweb.app
             visible: "Continue"
           commands:
             - back
+- extendedWaitUntil:
+    visible:
+      id: e2eProxyHeaderInput
+    timeout: 60000
 - tapOn:
     id: e2eProxyHeaderInput
 - inputText: ${output.result}

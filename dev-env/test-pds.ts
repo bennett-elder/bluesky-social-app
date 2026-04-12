@@ -257,6 +257,50 @@ class Mocker {
     })
   }
 
+  async createLinkPost(user: string, text: string) {
+    const agent = this.users[user]?.agent
+    if (!agent) {
+      throw new Error(`Not a user: ${user}`)
+    }
+    const blob = await agent.uploadBlob(this.pic, {
+      encoding: 'image/jpeg',
+    })
+    return await agent.post({
+      text,
+      langs: ['en'],
+      embed: {
+        $type: 'app.bsky.embed.external',
+        external: {
+          uri: 'https://example.com/article',
+          title: 'Example Article',
+          description: 'An example link post',
+          thumb: blob.data.blob,
+        },
+      },
+      createdAt: new Date().toISOString(),
+    })
+  }
+
+  async createGifPost(user: string, text: string) {
+    const agent = this.users[user]?.agent
+    if (!agent) {
+      throw new Error(`Not a user: ${user}`)
+    }
+    return await agent.post({
+      text,
+      langs: ['en'],
+      embed: {
+        $type: 'app.bsky.embed.external',
+        external: {
+          uri: 'https://media.tenor.com/AAAAC_e2e_test_gif/cat.gif?hh=200&ww=300',
+          title: 'Test GIF',
+          description: '',
+        },
+      },
+      createdAt: new Date().toISOString(),
+    })
+  }
+
   async createQuotePost(
     user: string,
     text: string,

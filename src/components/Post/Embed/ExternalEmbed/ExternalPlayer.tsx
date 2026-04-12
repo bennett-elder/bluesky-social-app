@@ -35,6 +35,10 @@ import {atoms as a, useTheme} from '#/alf'
 import {useDialogControl} from '#/components/Dialog'
 import {EmbedConsentDialog} from '#/components/dialogs/EmbedConsent'
 import {Fill} from '#/components/Fill'
+import {ArrowsDiagonalOut_Stroke2_Corner0_Rounded as ExpandIcon} from '#/components/icons/ArrowsDiagonal'
+import {TimesLarge_Stroke2_Corner0_Rounded as CloseIcon} from '#/components/icons/Times'
+import {MediaInsetBorder} from '#/components/MediaInsetBorder'
+import {Text} from '#/components/Typography'
 import {PlayButtonIcon} from '#/components/video/PlayButtonIcon'
 import {IS_NATIVE} from '#/env'
 
@@ -126,6 +130,7 @@ export function ExternalPlayer({
   params: EmbedPlayerParams
 }) {
   const t = useTheme()
+  const {_} = useLingui()
   const navigation = useNavigation<NavigationProp>()
   const insets = useSafeAreaInsets()
   const windowDims = useWindowDimensions()
@@ -135,6 +140,7 @@ export function ExternalPlayer({
 
   const [isPlayerActive, setPlayerActive] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
+  const [showThumbnail, setShowThumbnail] = useState(!altTextFirstEnabled)
 
   const aspect = useMemo(() => {
     return getPlayerAspect({
@@ -212,6 +218,57 @@ export function ExternalPlayer({
     setPlayerActive(true)
   }, [])
 
+  if (altTextFirstEnabled && !showThumbnail) {
+    return (
+      <>
+        <EmbedConsentDialog
+          control={consentDialogControl}
+          source={params.source}
+          onAccept={onAcceptConsent}
+        />
+        <Pressable
+          onPress={e => {
+            e.preventDefault()
+            setShowThumbnail(true)
+          }}
+          style={[
+            a.rounded_md,
+            a.overflow_hidden,
+            t.atoms.bg_contrast_25,
+            {minHeight: 44},
+          ]}
+          accessibilityLabel={_(msg`Show Thumbnail`)}
+          accessibilityHint={_(msg`Tap to view video thumbnail`)}
+          accessibilityRole="button">
+          <View
+            style={[
+              a.p_md,
+              a.flex_row,
+              a.align_center,
+              a.gap_sm,
+              a.justify_center,
+            ]}>
+            <View
+              style={[
+                a.rounded_xs,
+                {
+                  padding: 4,
+                  backgroundColor: t.atoms.text_contrast_high.color,
+                  opacity: 0.8,
+                },
+              ]}>
+              <ExpandIcon fill={t.atoms.bg.backgroundColor} width={16} />
+            </View>
+            <Text style={[a.text_sm, a.font_medium, t.atoms.text]}>
+              Show Thumbnail
+            </Text>
+          </View>
+          <MediaInsetBorder />
+        </Pressable>
+      </>
+    )
+  }
+
   return (
     <>
       <EmbedConsentDialog
@@ -220,51 +277,72 @@ export function ExternalPlayer({
         onAccept={onAcceptConsent}
       />
 
-      <Animated.View
-        ref={viewRef}
-        collapsable={false}
-        style={[aspect, a.overflow_hidden]}>
-        {link.thumb &&
-        !altTextFirstEnabled &&
-        (!isPlayerActive || isLoading) ? (
-          <>
-            <Image
-              style={[a.flex_1]}
-              source={{uri: link.thumb}}
-              accessibilityIgnoresInvertColors
-              loading="lazy"
-            />
+      <View style={{position: 'relative'}}>
+        {altTextFirstEnabled && (
+          <Pressable
+            onPress={e => {
+              e.preventDefault()
+              setShowThumbnail(false)
+            }}
+            style={[
+              a.absolute,
+              a.top_0,
+              a.right_0,
+              a.m_sm,
+              a.rounded_full,
+              t.atoms.bg_contrast_25,
+              {padding: 6, zIndex: 10},
+            ]}
+            accessibilityLabel={_(msg`Hide thumbnail`)}
+            accessibilityHint={_(msg`Collapses the thumbnail back to alt text`)}
+            accessibilityRole="button">
+            <CloseIcon fill={t.atoms.text.color} width={16} />
+          </Pressable>
+        )}
+        <Animated.View
+          ref={viewRef}
+          collapsable={false}
+          style={[aspect, a.overflow_hidden]}>
+          {link.thumb && (!isPlayerActive || isLoading) ? (
+            <>
+              <Image
+                style={[a.flex_1]}
+                source={{uri: link.thumb}}
+                accessibilityIgnoresInvertColors
+                loading="lazy"
+              />
+              <Fill
+                style={[
+                  t.name === 'light' ? t.atoms.bg_contrast_975 : t.atoms.bg,
+                  {
+                    opacity: 0.3,
+                  },
+                ]}
+              />
+            </>
+          ) : (
             <Fill
               style={[
-                t.name === 'light' ? t.atoms.bg_contrast_975 : t.atoms.bg,
                 {
+                  backgroundColor:
+                    t.name === 'light' ? t.palette.contrast_975 : 'black',
                   opacity: 0.3,
                 },
               ]}
             />
-          </>
-        ) : (
-          <Fill
-            style={[
-              {
-                backgroundColor:
-                  t.name === 'light' ? t.palette.contrast_975 : 'black',
-                opacity: 0.3,
-              },
-            ]}
+          )}
+          <PlaceholderOverlay
+            isLoading={isLoading}
+            isPlayerActive={isPlayerActive}
+            onPress={onPlayPress}
           />
-        )}
-        <PlaceholderOverlay
-          isLoading={isLoading}
-          isPlayerActive={isPlayerActive}
-          onPress={onPlayPress}
-        />
-        <Player
-          isPlayerActive={isPlayerActive}
-          params={params}
-          onLoad={onLoad}
-        />
-      </Animated.View>
+          <Player
+            isPlayerActive={isPlayerActive}
+            params={params}
+            onLoad={onLoad}
+          />
+        </Animated.View>
+      </View>
     </>
   )
 }

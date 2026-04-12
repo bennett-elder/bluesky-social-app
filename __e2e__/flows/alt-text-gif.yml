@@ -1,0 +1,49 @@
+appId: xyz.blueskyweb.app
+---
+- runScript:
+    file: ../setupServer.js
+    env:
+      SERVER_PATH: "?users&follows&gifposts"
+- runFlow:
+    file: ../setupApp.yml
+- tapOn:
+    id: "e2eSignInAlice"
+- extendedWaitUntil:
+    visible:
+      id: "viewHeaderHomeFeedPrefsBtn"
+- tapOn:
+    id: "e2eRefreshHome"
+- waitForAnimationToEnd
+
+# Default: setting off — GIFs play inline, no alt text boxes
+- assertNotVisible: "No Alt Text"
+
+# Enable "Oops! All text"
+- tapOn:
+    id: "e2eGotoContentAndMedia"
+- tapOn: "Oops! All text"
+- tapOn:
+    id: "e2eGotoHome"
+- tapOn:
+    id: "e2eRefreshHome"
+- waitForAnimationToEnd
+
+# Setting on — GIF posts show "No Alt Text" collapsed box
+- assertVisible: "No Alt Text"
+
+# Tap to expand the GIF (goes to showingThumbnail state)
+- tapOn: "No Alt Text"
+
+# Expanded — "Close GIF" button now visible
+- assertVisible: "Close GIF"
+
+# Tap to collapse back
+- tapOn: "Close GIF"
+
+# Collapsed again — "No Alt Text" is back
+- assertVisible: "No Alt Text"
+
+# Disable "Oops! All text" (cleanup)
+- tapOn:
+    id: "e2eGotoContentAndMedia"
+- tapOn: "Oops! All text"

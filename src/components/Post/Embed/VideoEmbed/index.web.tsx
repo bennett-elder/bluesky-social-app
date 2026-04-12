@@ -11,12 +11,13 @@ import {type AppBskyEmbedVideo} from '@atproto/api'
 import {msg} from '@lingui/core/macro'
 import {useLingui} from '@lingui/react'
 
-import {useAltTextFirstEnabled} from '#/state/preferences'
+import {useAltTextFirstEnabled, useAutoplayDisabled} from '#/state/preferences'
 import {ErrorBoundary} from '#/view/com/util/ErrorBoundary'
 import {atoms as a, useTheme} from '#/alf'
 import {useIsWithinMessage} from '#/components/dms/MessageContext'
 import {useFullscreen} from '#/components/hooks/useFullscreen'
 import {ArrowsDiagonalOut_Stroke2_Corner0_Rounded as ExpandIcon} from '#/components/icons/ArrowsDiagonal'
+import {TimesLarge_Stroke2_Corner0_Rounded as CloseIcon} from '#/components/icons/Times'
 import {ConstrainedImage} from '#/components/images/AutoSizedImage'
 import {MediaInsetBorder} from '#/components/MediaInsetBorder'
 import {
@@ -25,28 +26,25 @@ import {
   VideoNotFoundError,
 } from '#/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerWeb'
 import {Text} from '#/components/Typography'
+import {PlayButtonIcon} from '#/components/video/PlayButtonIcon'
 import {IS_WEB_FIREFOX} from '#/env'
 import {useActiveVideoWeb} from './ActiveVideoWebContext'
 import * as VideoFallback from './VideoEmbedInner/VideoFallback'
 
 const noop = () => {}
 
-type VideoState = 'collapsed' | 'expanded'
+type VideoState = 'collapsed' | 'showingThumbnail' | 'expanded'
 
 export function VideoEmbed({embed}: {embed: AppBskyEmbedVideo.View}) {
   const t = useTheme()
   const altTextFirstEnabled = useAltTextFirstEnabled()
+  const autoplayDisabled = useAutoplayDisabled()
   const {_} = useLingui()
   const [state, setState] = useState<VideoState>(() =>
-    altTextFirstEnabled ? 'collapsed' : 'expanded',
+    altTextFirstEnabled ? 'collapsed' : 'showingThumbnail',
   )
   const userInteractedRef = useRef(false)
-  console.log(
-    'VideoEmbed.web: altTextFirstEnabled =',
-    altTextFirstEnabled,
-    'state =',
-    state,
-  )
+  const [forceShowVideo, setForceShowVideo] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
   const {
     active: activeFromContext,
@@ -64,7 +62,19 @@ export function VideoEmbed({embed}: {embed: AppBskyEmbedVideo.View}) {
 
   const handleExpand = () => {
     userInteractedRef.current = true
+    // If autoplay is enabled, skip thumbnail and go straight to the player
+    setState(autoplayDisabled ? 'showingThumbnail' : 'expanded')
+  }
+
+  const handlePlay = () => {
+    userInteractedRef.current = true
+    setForceShowVideo(true)
     setState('expanded')
+  }
+
+  const handleCollapse = () => {
+    userInteractedRef.current = true
+    setState('collapsed')
   }
 
   // Update state when setting changes (only if user hasn't manually interacted)
@@ -74,15 +84,10 @@ export function VideoEmbed({embed}: {embed: AppBskyEmbedVideo.View}) {
     if (userInteractedRef.current) return
     if (altTextFirstEnabledRef.current !== altTextFirstEnabled) {
       altTextFirstEnabledRef.current = altTextFirstEnabled
-      if (state === 'expanded' && altTextFirstEnabled) {
-        setState('collapsed')
-      } else if (state === 'collapsed' && !altTextFirstEnabled) {
-        setState('expanded')
-      }
+      setState(altTextFirstEnabled ? 'collapsed' : 'showingThumbnail')
     }
-  }, [altTextFirstEnabled, state])
+  }, [altTextFirstEnabled])
 
-  // All hooks must be called before any early returns
   useEffect(() => {
     if (!ref.current) return
     if (isFullscreen && !IS_WEB_FIREFOX) return
@@ -168,6 +173,53 @@ export function VideoEmbed({embed}: {embed: AppBskyEmbedVideo.View}) {
     constrained = Math.max(aspectRatio, ratio)
   }
 
+  // State: showingThumbnail — thumbnail with play button and close button
+  if (state === 'showingThumbnail') {
+    return (
+      <View style={[a.pt_xs, {position: 'relative'}]}>
+        <ConstrainedImage
+          fullBleed
+          aspectRatio={constrained || 1}
+          minMobileAspectRatio={14 / 9}>
+          <div
+            style={{
+              width: '100%',
+              height: '100%',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: t.palette.black,
+              backgroundImage: `url(${embed.thumbnail})`,
+              backgroundSize: 'contain',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+            }}
+            onClick={handlePlay}>
+            <PlayButtonIcon size={32} />
+          </div>
+          <MediaInsetBorder />
+        </ConstrainedImage>
+        <Pressable
+          onPress={handleCollapse}
+          style={[
+            a.absolute,
+            a.top_0,
+            a.right_0,
+            a.m_sm,
+            a.rounded_full,
+            t.atoms.bg_contrast_25,
+            {padding: 6, zIndex: 10},
+          ]}
+          accessibilityLabel={_(msg`Close video`)}
+          accessibilityHint={_(msg`Collapses the video back to alt text`)}
+          accessibilityRole="button">
+          <CloseIcon fill={t.atoms.text.color} width={16} />
+        </Pressable>
+      </View>
+    )
+  }
+
   const contents = (
     <div
       ref={ref}
@@ -201,7 +253,7 @@ export function VideoEmbed({embed}: {embed: AppBskyEmbedVideo.View}) {
   )
 
   return (
-    <View style={[a.pt_xs]}>
+    <View style={[a.pt_xs, {position: 'relative'}]}>
       <ViewportObserver
         sendPosition={isGif ? noop : sendPosition}
         isAnyViewActive={currentActiveView !== null}>
@@ -211,10 +263,26 @@ export function VideoEmbed({embed}: {embed: AppBskyEmbedVideo.View}) {
           // slightly smaller max height than images
           // images use 16 / 9, for reference
           minMobileAspectRatio={14 / 9}>
-          {contents}
+          <OnlyNearScreen forceShow={forceShowVideo}>{contents}</OnlyNearScreen>
           <MediaInsetBorder />
         </ConstrainedImage>
       </ViewportObserver>
+      <Pressable
+        onPress={handleCollapse}
+        style={[
+          a.absolute,
+          a.top_0,
+          a.right_0,
+          a.m_sm,
+          a.rounded_full,
+          t.atoms.bg_contrast_25,
+          {padding: 6, zIndex: 10},
+        ]}
+        accessibilityLabel={_(msg`Close video`)}
+        accessibilityHint={_(msg`Collapses the video back to alt text`)}
+        accessibilityRole="button">
+        <CloseIcon fill={t.atoms.text.color} width={16} />
+      </Pressable>
     </View>
   )
 }
@@ -299,10 +367,16 @@ function ViewportObserver({
  * So we put it at the top level of the component tree here, then hide the children of
  * the auto-resizing container.
  */
-export const OnlyNearScreen = ({children}: {children: React.ReactNode}) => {
+export const OnlyNearScreen = ({
+  children,
+  forceShow = false,
+}: {
+  children: React.ReactNode
+  forceShow?: boolean
+}) => {
   const nearScreen = useContext(NearScreenContext)
 
-  return nearScreen ? children : null
+  return nearScreen || forceShow ? children : null
 }
 
 function VideoError({error, retry}: {error: unknown; retry: () => void}) {
