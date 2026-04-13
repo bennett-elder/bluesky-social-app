@@ -53,7 +53,7 @@ export const ExternalEmbed = ({
     const params = parseEmbedPlayerFromUrl(link.uri)
     // Hide thumbnail if alt-text-first mode is enabled and this is a known embed player type
     if (altTextFirstEnabled) {
-      return params !== null
+      return params != null
     }
     // Also hide if explicitly hidden in prefs
     return params && externalEmbedPrefs?.[params.source] === 'hide'
@@ -111,6 +111,7 @@ export const ExternalEmbed = ({
           {imageUri && !embedPlayerParams && !isEmbedPlayerHidden ? (
             <View style={[a.px_sm, a.pb_xs]}>
               <AltTextLinkThumbnail
+                key={String(altTextFirstEnabled)}
                 imageUri={imageUri}
                 altText={link.description}
               />

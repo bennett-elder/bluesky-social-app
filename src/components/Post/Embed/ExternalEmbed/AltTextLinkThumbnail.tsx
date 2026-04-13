@@ -56,8 +56,9 @@ export function AltTextLinkThumbnail({
           t.atoms.bg_contrast_25,
           {minHeight: 44},
         ]}
-        accessibilityLabel={displayAltText}
-        accessibilityHint={_(msg`Tap to view thumbnail`)}
+        testID="showThumbnailButton"
+        accessibilityLabel="Show Thumbnail"
+        accessibilityHint={displayAltText}
         accessibilityRole="button">
         <View
           style={[

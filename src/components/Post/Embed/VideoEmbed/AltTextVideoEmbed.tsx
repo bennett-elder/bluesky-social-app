@@ -43,6 +43,8 @@ export function AltTextVideoEmbed({embed}: AltTextVideoEmbedProps) {
     altTextFirstEnabled ? 'collapsed' : 'showingThumbnail',
   )
   const userInteractedRef = useRef(false)
+  const stateRef = useRef(state)
+  stateRef.current = state
 
   // Update state when setting changes (only if user hasn't manually interacted)
   const altTextFirstEnabledRef = useRef(altTextFirstEnabled)
@@ -50,15 +52,15 @@ export function AltTextVideoEmbed({embed}: AltTextVideoEmbedProps) {
     if (userInteractedRef.current) return
     if (altTextFirstEnabledRef.current !== altTextFirstEnabled) {
       altTextFirstEnabledRef.current = altTextFirstEnabled
-      if (state === 'showingThumbnail' && altTextFirstEnabled) {
+      if (stateRef.current === 'showingThumbnail' && altTextFirstEnabled) {
         // Setting was enabled while showing thumbnail - collapse
         setState('collapsed')
-      } else if (state === 'collapsed' && !altTextFirstEnabled) {
+      } else if (stateRef.current === 'collapsed' && !altTextFirstEnabled) {
         // Setting was disabled while collapsed - show thumbnail
         setState('showingThumbnail')
       }
     }
-  }, [altTextFirstEnabled, state])
+  }, [altTextFirstEnabled])
 
   const hasAlt = !!embed.alt
   const altText = embed.alt || _(msg`Video`)
@@ -112,6 +114,7 @@ export function AltTextVideoEmbed({embed}: AltTextVideoEmbedProps) {
           t.atoms.bg_contrast_25,
           {minHeight: 80},
         ]}
+        testID="altTextVideoButton"
         accessibilityLabel={altText}
         accessibilityHint={_(msg`Tap to view video thumbnail`)}
         accessibilityRole="button">
