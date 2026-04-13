@@ -1235,7 +1235,7 @@ msgstr "An error occurred while loading the GIF. Please try again later."
 msgid "An error occurred while loading the video. Please try again later."
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/index.web.tsx:322
+#: src/components/Post/Embed/VideoEmbed/index.web.tsx:396
 msgid "An error occurred while loading the video. Please try again."
 msgstr ""
 
@@ -1333,7 +1333,7 @@ msgstr ""
 msgid "Animals"
 msgstr ""
 
-#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:230
+#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:235
 msgid "Animated GIF"
 msgstr ""
 
@@ -2351,8 +2351,8 @@ msgstr ""
 msgid "Close emoji picker"
 msgstr ""
 
-#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:134
-#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:214
+#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:139
+#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:219
 msgid "Close GIF"
 msgstr "Close GIF"
 
@@ -2379,8 +2379,10 @@ msgstr ""
 msgid "Close this dialog"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:160
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:230
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:166
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:236
+#: src/components/Post/Embed/VideoEmbed/index.web.tsx:214
+#: src/components/Post/Embed/VideoEmbed/index.web.tsx:281
 msgid "Close video"
 msgstr "Close video"
 
@@ -2405,23 +2407,23 @@ msgstr ""
 msgid "Closes the expanded image view"
 msgstr "Closes the expanded image view"
 
-#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:215
+#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:220
 msgid "Closes the GIF player"
 msgstr "Closes the GIF player"
 
-#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:135
+#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:140
 msgid "Closes the GIF preview"
 msgstr "Closes the GIF preview"
 
-#: src/components/Post/Embed/ExternalEmbed/AltTextLinkThumbnail.tsx:102
+#: src/components/Post/Embed/ExternalEmbed/AltTextLinkThumbnail.tsx:107
 msgid "Closes the thumbnail preview"
 msgstr "Closes the thumbnail preview"
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:231
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:237
 msgid "Closes the video player"
 msgstr "Closes the video player"
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:161
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:167
 msgid "Closes the video preview"
 msgstr "Closes the video preview"
 
@@ -2436,6 +2438,15 @@ msgstr ""
 #: src/view/com/notifications/NotificationFeedItem.tsx:923
 msgid "Collapses list of users for a given notification"
 msgstr ""
+
+#: src/components/Post/Embed/ExternalEmbed/ExternalPlayer.tsx:297
+msgid "Collapses the thumbnail back to alt text"
+msgstr "Collapses the thumbnail back to alt text"
+
+#: src/components/Post/Embed/VideoEmbed/index.web.tsx:215
+#: src/components/Post/Embed/VideoEmbed/index.web.tsx:282
+msgid "Collapses the video back to alt text"
+msgstr "Collapses the video back to alt text"
 
 #: src/components/dialogs/Embed.tsx:155
 #: src/screens/Settings/AppearanceSettings.tsx:81
@@ -5085,7 +5096,8 @@ msgstr ""
 msgid "Hide this reply?"
 msgstr ""
 
-#: src/components/Post/Embed/ExternalEmbed/AltTextLinkThumbnail.tsx:101
+#: src/components/Post/Embed/ExternalEmbed/AltTextLinkThumbnail.tsx:106
+#: src/components/Post/Embed/ExternalEmbed/ExternalPlayer.tsx:296
 msgid "Hide thumbnail"
 msgstr "Hide thumbnail"
 
@@ -5828,7 +5840,7 @@ msgstr ""
 msgid "Linear"
 msgstr ""
 
-#: src/components/Post/Embed/ExternalEmbed/AltTextLinkThumbnail.tsx:114
+#: src/components/Post/Embed/ExternalEmbed/AltTextLinkThumbnail.tsx:119
 msgid "Link thumbnail"
 msgstr "Link thumbnail"
 
@@ -6291,7 +6303,7 @@ msgstr ""
 msgid "Music"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:316
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:322
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:171
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/web-controls/VolumeControl.tsx:97
 msgctxt "video"
@@ -7327,13 +7339,13 @@ msgstr ""
 msgid "Password updated!"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:298
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:304
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:155
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/web-controls/VideoControls.tsx:395
 msgid "Pause"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:274
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:280
 #: src/components/Post/Embed/VideoEmbed/GifPresentationControls.tsx:36
 msgid "Pause GIF"
 msgstr ""
@@ -7342,7 +7354,7 @@ msgstr ""
 msgid "Pause video"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:277
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:283
 msgid "Pauses the GIF"
 msgstr "Pauses the GIF"
 
@@ -7448,7 +7460,7 @@ msgstr ""
 msgid "Pinned to your feeds"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:298
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:304
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:155
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/web-controls/VideoControls.tsx:396
 msgid "Play"
@@ -7459,18 +7471,18 @@ msgstr ""
 msgid "Play {0}"
 msgstr ""
 
-#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:172
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:274
+#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:177
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:280
 #: src/components/Post/Embed/VideoEmbed/GifPresentationControls.tsx:36
 msgid "Play GIF"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:186
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:192
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/web-controls/VideoControls.tsx:347
 msgid "Play video"
 msgstr ""
 
-#: src/components/Post/Embed/ExternalEmbed/ExternalPlayer.tsx:64
+#: src/components/Post/Embed/ExternalEmbed/ExternalPlayer.tsx:68
 msgid "Play Video"
 msgstr ""
 
@@ -7478,17 +7490,17 @@ msgstr ""
 msgid "Plays or pauses the GIF"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:299
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:305
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:156
 msgid "Plays or pauses the video"
 msgstr ""
 
 #: src/components/Post/Embed/ExternalEmbed/ExternalGif.tsx:109
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:277
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:283
 msgid "Plays the GIF"
 msgstr ""
 
-#: src/components/Post/Embed/ExternalEmbed/ExternalPlayer.tsx:65
+#: src/components/Post/Embed/ExternalEmbed/ExternalPlayer.tsx:69
 msgid "Plays the video"
 msgstr ""
 
@@ -9473,6 +9485,10 @@ msgstr ""
 msgid "Show samples of your saved feeds in your Following feed"
 msgstr ""
 
+#: src/components/Post/Embed/ExternalEmbed/ExternalPlayer.tsx:240
+msgid "Show Thumbnail"
+msgstr "Show Thumbnail"
+
 #: src/lib/moderation/useLabelBehaviorDescription.ts:61
 msgid "Show warning"
 msgstr ""
@@ -9804,11 +9820,11 @@ msgstr ""
 msgid "Starter Packs let you share your favorite feeds and people with your friends."
 msgstr ""
 
-#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:173
+#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:178
 msgid "Starts playing the GIF"
 msgstr "Starts playing the GIF"
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:187
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:193
 msgid "Starts playing the video"
 msgstr "Starts playing the video"
 
@@ -10012,15 +10028,15 @@ msgstr ""
 msgid "Tap to dismiss"
 msgstr ""
 
-#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:149
+#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:154
 msgid "Tap to play GIF"
 msgstr "Tap to play GIF"
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:293
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:299
 msgid "Tap to play or pause"
 msgstr "Tap to play or pause"
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:174
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:180
 msgid "Tap to play video"
 msgstr "Tap to play video"
 
@@ -10028,7 +10044,7 @@ msgstr "Tap to play video"
 msgid "Tap to view full size"
 msgstr "Tap to view full size"
 
-#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:79
+#: src/components/Post/Embed/ExternalEmbed/AltTextGifEmbed.tsx:84
 msgid "Tap to view GIF"
 msgstr "Tap to view GIF"
 
@@ -10036,12 +10052,9 @@ msgstr "Tap to view GIF"
 msgid "Tap to view image"
 msgstr "Tap to view image"
 
-#: src/components/Post/Embed/ExternalEmbed/AltTextLinkThumbnail.tsx:56
-msgid "Tap to view thumbnail"
-msgstr "Tap to view thumbnail"
-
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:113
-#: src/components/Post/Embed/VideoEmbed/index.web.tsx:130
+#: src/components/Post/Embed/ExternalEmbed/ExternalPlayer.tsx:241
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:119
+#: src/components/Post/Embed/VideoEmbed/index.web.tsx:135
 msgid "Tap to view video thumbnail"
 msgstr "Tap to view video thumbnail"
 
@@ -10726,7 +10739,7 @@ msgstr ""
 msgid "Toggle to enable or disable adult content"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:318
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:324
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:173
 msgid "Toggles the sound"
 msgstr ""
@@ -11004,7 +11017,7 @@ msgstr ""
 msgid "Unmute"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:315
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:321
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:170
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/web-controls/VolumeControl.tsx:96
 msgctxt "video"
@@ -11423,9 +11436,9 @@ msgid "Version {0}"
 msgstr ""
 
 #: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:66
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:255
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:292
-#: src/components/Post/Embed/VideoEmbed/index.web.tsx:118
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:261
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:298
+#: src/components/Post/Embed/VideoEmbed/index.web.tsx:123
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:87
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:149
 msgid "Video"
@@ -11462,7 +11475,7 @@ msgstr ""
 msgid "Video is playing"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/index.web.tsx:315
+#: src/components/Post/Embed/VideoEmbed/index.web.tsx:389
 msgid "Video not found."
 msgstr ""
 
@@ -11475,7 +11488,7 @@ msgid "Video uploaded"
 msgstr ""
 
 #. placeholder {0}: embed.alt
-#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:255
+#: src/components/Post/Embed/VideoEmbed/AltTextVideoEmbed.tsx:261
 #: src/components/Post/Embed/VideoEmbed/VideoEmbedInner/VideoEmbedInnerNative.tsx:87
 msgid "Video: {0}"
 msgstr ""
@@ -12520,7 +12533,7 @@ msgstr ""
 msgid "Your birth date"
 msgstr ""
 
-#: src/components/Post/Embed/VideoEmbed/index.web.tsx:319
+#: src/components/Post/Embed/VideoEmbed/index.web.tsx:393
 msgid "Your browser does not support the video format. Please try a different browser."
 msgstr ""
 
