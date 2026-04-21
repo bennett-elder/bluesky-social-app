@@ -216,7 +216,7 @@ export function TextInput({
 
   return (
     <View style={[a.flex_1, a.pl_md, hasRightPadding && a.pr_4xl]}>
-      <TextInputWrapper onPaste={onPaste}>
+      <TextInputWrapper onPaste={onPaste} style={a.flex_1}>
         <RNTextInput
           testID="composerTextInput"
           ref={textInput}

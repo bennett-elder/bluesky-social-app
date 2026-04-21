@@ -16,7 +16,7 @@ LogBox.ignoreAllLogs()
  * of the tests dramatically.
  */
 
-const BTN = {height: 1, width: 1, backgroundColor: 'red'}
+const BTN = {height: 40, width: 40, backgroundColor: 'red', marginBottom: 5}
 
 export function TestCtrls() {
   const agent = useAgent()

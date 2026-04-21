@@ -301,6 +301,31 @@ class Mocker {
     })
   }
 
+  async createVideoPost(user: string, text: string) {
+    const agent = this.users[user]?.agent
+    if (!agent) {
+      throw new Error(`Not a user: ${user}`)
+    }
+    const thumbBlob = await agent.uploadBlob(this.pic, {
+      encoding: 'image/jpeg',
+    })
+    // Upload a placeholder blob as the video (won't play, but thumbnail renders)
+    const videoBlob = await agent.uploadBlob(this.pic, {
+      encoding: 'video/mp4',
+    })
+    return await agent.post({
+      text,
+      langs: ['en'],
+      embed: {
+        $type: 'app.bsky.embed.video',
+        video: videoBlob.data.blob,
+        thumbnail: thumbBlob.data.blob,
+        alt: '',
+      },
+      createdAt: new Date().toISOString(),
+    })
+  }
+
   async createQuotePost(
     user: string,
     text: string,

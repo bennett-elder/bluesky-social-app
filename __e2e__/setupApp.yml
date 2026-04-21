@@ -7,11 +7,6 @@ appId: xyz.blueskyweb.app
       "-EXDevMenuIsOnboardingFinished": true
 - runFlow:
     when:
-      platform: iOS
-    commands:
-      - tapOn: 'http://localhost:8081'
-- runFlow:
-    when:
       platform: Android
     commands:
       - tapOn: 'http://localhost:8081'

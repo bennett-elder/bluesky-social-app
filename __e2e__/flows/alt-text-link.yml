@@ -4,28 +4,69 @@ appId: xyz.blueskyweb.app
     file: ../setupServer.js
     env:
       SERVER_PATH: "?users&follows&linkposts"
-- runFlow:
-    file: ../setupApp.yml
-- tapOn:
-    id: "e2eSignInAlice"
+- launchApp:
+    appId: "xyz.blueskyweb.app"
+    clearState: true
+
+# Sign in via standard login flow
+- tapOn: "Sign in"
+- waitForAnimationToEnd
 - extendedWaitUntil:
     visible:
-      id: "viewHeaderHomeFeedPrefsBtn"
-- tapOn:
-    id: "e2eRefreshHome"
+      text: "Username or email address"
+    timeout: 30000
+
+# Enter credentials
+- tapOn: "Username or email address"
+- inputText: "alice.test"
+- tapOn: "Password"
+- inputText: "hunter2"
+- tapOn: "Sign in"
+
+# Wait for home feed to load
+- extendedWaitUntil:
+    visible:
+      text: "Home"
+    timeout: 60000
 - waitForAnimationToEnd
 
 # Default: setting off — thumbnails shown inline, no "Show Thumbnail" buttons
 - assertNotVisible: "Show Thumbnail"
 
+# Navigate to Settings via bottom tab bar
+- tapOn: "Profile"
+- extendedWaitUntil:
+    visible:
+      text: "Settings"
+    timeout: 10000
+- tapOn: "Settings"
+
+# Navigate to Preferences → Content and Media
+- extendedWaitUntil:
+    visible:
+      text: "Preferences"
+    timeout: 10000
+- tapOn: "Preferences"
+- extendedWaitUntil:
+    visible:
+      text: "Content and Media"
+    timeout: 10000
+- tapOn: "Content and Media"
+
 # Enable "Oops! All text"
-- tapOn:
-    id: "e2eGotoContentAndMedia"
+- extendedWaitUntil:
+    visible:
+      text: "Oops! All text"
+    timeout: 10000
 - tapOn: "Oops! All text"
-- tapOn:
-    id: "e2eGotoHome"
-- tapOn:
-    id: "e2eRefreshHome"
+- waitForAnimationToEnd
+
+# Go back to home feed via tab bar
+- tapOn: "Home"
+- extendedWaitUntil:
+    visible:
+      text: "Home"
+    timeout: 10000
 - waitForAnimationToEnd
 
 # Setting on — link thumbnails collapsed, "Show Thumbnail" buttons visible
@@ -33,19 +74,14 @@ appId: xyz.blueskyweb.app
 
 # Tap to expand
 - tapOn: "Show Thumbnail"
+- waitForAnimationToEnd
 
-# Expanded — "Hide thumbnail" button now visible (icon-only, found by label)
-- assertVisible:
-    text: "Hide thumbnail"
+# Expanded — "Hide thumbnail" button now visible
+- assertVisible: "Hide thumbnail"
 
 # Tap to collapse back
-- tapOn:
-    text: "Hide thumbnail"
+- tapOn: "Hide thumbnail"
+- waitForAnimationToEnd
 
 # Collapsed again — "Show Thumbnail" is back
 - assertVisible: "Show Thumbnail"
-
-# Disable "Oops! All text" (cleanup)
-- tapOn:
-    id: "e2eGotoContentAndMedia"
-- tapOn: "Oops! All text"

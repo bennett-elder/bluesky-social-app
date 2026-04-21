@@ -72,6 +72,12 @@ createHTTPServer(async (req, res) => {
           await server.mocker.createGifPost('bob', `GIF post ${i}`)
         }
       }
+      if ('videoposts' in url.query) {
+        console.log('Generating mock video posts')
+        for (let i = 0; i < 3; i++) {
+          await server.mocker.createVideoPost('bob', `Video post ${i}`)
+        }
+      }
       if ('feeds' in url.query) {
         console.log('Generating mock feed')
         await server.mocker.createFeed('alice', 'alice-favs', [])
