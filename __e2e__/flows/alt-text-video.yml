@@ -6,6 +6,8 @@ appId: xyz.blueskyweb.app
       SERVER_PATH: "?users&follows&videoposts"
 - runFlow:
     file: ../setupApp.yml
+- tapOn:
+    id: "e2eSignInAlice"
 - extendedWaitUntil:
     visible:
       id: "viewHeaderHomeFeedPrefsBtn"
@@ -13,8 +15,9 @@ appId: xyz.blueskyweb.app
     id: "e2eRefreshHome"
 - waitForAnimationToEnd
 
-# Default: setting off — videos play inline, no alt text boxes
-- assertNotVisible: "No Alt Text"
+# Default: setting off — videos play inline, no collapsed alt text button
+- assertNotVisible:
+    id: "altTextVideoButton"
 
 # Enable "Oops! All text"
 - tapOn:
@@ -26,11 +29,13 @@ appId: xyz.blueskyweb.app
     id: "e2eRefreshHome"
 - waitForAnimationToEnd
 
-# Setting on — video posts show "No Alt Text" collapsed box
-- assertVisible: "No Alt Text"
+# Setting on — video posts show collapsed alt text button
+- assertVisible:
+    id: "altTextVideoButton"
 
 # Tap to expand (goes to showingThumbnail state)
-- tapOn: "No Alt Text"
+- tapOn:
+    id: "altTextVideoButton"
 
 # Expanded — "Close video" button now visible
 - assertVisible: "Close video"
@@ -38,8 +43,9 @@ appId: xyz.blueskyweb.app
 # Tap to collapse back
 - tapOn: "Close video"
 
-# Collapsed again — "No Alt Text" is back
-- assertVisible: "No Alt Text"
+# Collapsed again — alt text button is back
+- assertVisible:
+    id: "altTextVideoButton"
 
 # Disable "Oops! All text" (cleanup)
 - tapOn:
