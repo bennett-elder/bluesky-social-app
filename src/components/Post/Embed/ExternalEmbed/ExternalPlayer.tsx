@@ -279,25 +279,23 @@ export function ExternalPlayer({
 
       <View style={{position: 'relative'}}>
         {altTextFirstEnabled && (
-          <Pressable
-            onPress={e => {
-              e.preventDefault()
-              setShowThumbnail(false)
-            }}
-            style={[
-              a.absolute,
-              a.top_0,
-              a.right_0,
-              a.m_sm,
-              a.rounded_full,
-              t.atoms.bg_contrast_25,
-              {padding: 6, zIndex: 10},
-            ]}
-            accessibilityLabel={_(msg`Hide thumbnail`)}
-            accessibilityHint={_(msg`Collapses the thumbnail back to alt text`)}
-            accessibilityRole="button">
-            <CloseIcon fill={t.atoms.text.color} width={16} />
-          </Pressable>
+          <EventStopper
+            style={[a.absolute, a.top_0, a.right_0, a.m_sm, {zIndex: 10}]}>
+            <Pressable
+              onPress={e => {
+                e.preventDefault()
+                setPlayerActive(false)
+                setShowThumbnail(false)
+              }}
+              style={[a.rounded_full, t.atoms.bg_contrast_25, {padding: 6}]}
+              accessibilityLabel={_(msg`Hide thumbnail`)}
+              accessibilityHint={_(
+                msg`Collapses the thumbnail back to alt text`,
+              )}
+              accessibilityRole="button">
+              <CloseIcon fill={t.atoms.text.color} width={16} />
+            </Pressable>
+          </EventStopper>
         )}
         <Animated.View
           ref={viewRef}
