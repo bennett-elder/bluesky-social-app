@@ -487,6 +487,7 @@ export type Events = {
       | 'SeeMoreSuggestedUsers'
       | 'ProgressGuide'
     location: 'Card' | 'Profile' | 'FollowAll'
+    recSource?: 'Search'
     recId?: number | string
     position: number
     suggestedDid: string
@@ -514,6 +515,7 @@ export type Events = {
       | 'Onboarding'
       | 'SeeMoreSuggestedUsers'
       | 'ProgressGuide'
+    recSource?: 'Search'
     recId?: number | string
     position: number
     suggestedDid: string
@@ -562,6 +564,9 @@ export type Events = {
       | 'NewChatDialog'
       | 'ChatsList'
       | 'SendViaChatDialog'
+  }
+  'groupchat:create': {
+    logContext: 'NewChatDialog'
   }
   'starterPack:addUser': {
     starterPack?: string
@@ -1043,4 +1048,19 @@ export type Events = {
   'profile:associated:germ:click-self-info': {}
   'profile:associated:germ:self-disconnect': {}
   'profile:associated:germ:self-reconnect': {}
+
+  // Gallery carousel events
+  'post:gallery:swipe': {
+    fromImage: number
+    toImage: number
+    totalImages: number
+  }
+  'post:gallery:openLightbox': {
+    fromImage: number
+    totalImages: number
+  }
+  'post:gallery:impression': {
+    totalImages: number
+    postUri: string
+  }
 }

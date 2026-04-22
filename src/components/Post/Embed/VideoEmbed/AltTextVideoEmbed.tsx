@@ -3,7 +3,7 @@ import {Pressable, View} from 'react-native'
 import {Image} from 'expo-image'
 import {type AppBskyEmbedVideo} from '@atproto/api'
 import {utils} from '@bsky.app/alf'
-import {BlueskyVideoView} from '@haileyok/bluesky-video'
+import {BlueskyVideoView} from '@bsky.app/video'
 import {msg} from '@lingui/core/macro'
 import {useLingui} from '@lingui/react'
 

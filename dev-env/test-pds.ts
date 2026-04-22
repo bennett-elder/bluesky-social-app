@@ -306,10 +306,7 @@ class Mocker {
     if (!agent) {
       throw new Error(`Not a user: ${user}`)
     }
-    const thumbBlob = await agent.uploadBlob(this.pic, {
-      encoding: 'image/jpeg',
-    })
-    // Upload a placeholder blob as the video (won't play, but thumbnail renders)
+    // Upload a placeholder blob as the video (won't play, but sufficient for E2E testing)
     const videoBlob = await agent.uploadBlob(this.pic, {
       encoding: 'video/mp4',
     })
@@ -319,7 +316,6 @@ class Mocker {
       embed: {
         $type: 'app.bsky.embed.video',
         video: videoBlob.data.blob,
-        thumbnail: thumbBlob.data.blob,
         alt: '',
       },
       createdAt: new Date().toISOString(),

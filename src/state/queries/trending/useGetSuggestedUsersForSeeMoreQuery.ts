@@ -1,6 +1,6 @@
 import {
   type AppBskyActorDefs,
-  type AppBskyUnspeccedGetSuggestedUsers,
+  type AppBskyUnspeccedGetSuggestedUsersForSeeMore,
 } from '@atproto/api'
 import {type QueryClient, useQuery} from '@tanstack/react-query'
 
@@ -20,29 +20,32 @@ export type QueryProps = {
   enabled?: boolean
 }
 
-export const getSuggestedUsersQueryKeyRoot = 'unspecced-suggested-users'
-export const createGetSuggestedUsersQueryKey = (props: QueryProps) => [
-  getSuggestedUsersQueryKeyRoot,
-  props.category,
-  props.limit,
-]
+export const getSuggestedUsersForSeeMoreQueryKeyRoot =
+  'unspecced-suggested-users-for-explore'
+export const createGetSuggestedUsersForSeeMoreQueryKey = (props: {
+  category?: string | null
+  limit?: number
+}) => [getSuggestedUsersForSeeMoreQueryKeyRoot, props.category, props.limit]
 
-export function useGetSuggestedUsersQuery(props: QueryProps) {
+export function useGetSuggestedUsersForSeeMoreQuery(props: QueryProps = {}) {
   const agent = useAgent()
   const {data: preferences} = usePreferencesQuery()
 
   return useQuery({
-    enabled: !!preferences && props.enabled !== false,
+    enabled: props.enabled ?? true,
     staleTime: STALE.MINUTES.THREE,
-    queryKey: createGetSuggestedUsersQueryKey(props),
+    queryKey: createGetSuggestedUsersForSeeMoreQueryKey({
+      category: props.category,
+      limit: props.limit,
+    }),
     queryFn: async () => {
       const contentLangs = getContentLanguages().join(',')
       const userInterests = aggregateUserInterests(preferences)
 
-      const {data} = await agent.app.bsky.unspecced.getSuggestedUsers(
+      const {data} = await agent.app.bsky.unspecced.getSuggestedUsersForSeeMore(
         {
           category: props.category ?? undefined,
-          limit: props.limit || 10,
+          limit: props.limit || 50,
         },
         {
           headers: {
@@ -51,27 +54,11 @@ export function useGetSuggestedUsersQuery(props: QueryProps) {
           },
         },
       )
-      // FALLBACK: if no results for 'all', try again with no interests specified
-      if (!props.category && data.actors.length === 0) {
-        logger.error(
-          `Did not get any suggested users, falling back - interests: ${userInterests}`,
-        )
-        const {data: fallbackData} =
-          await agent.app.bsky.unspecced.getSuggestedUsers(
-            {
-              category: props.category ?? undefined,
-              limit: props.limit || 10,
-            },
-            {
-              headers: {
-                'Accept-Language': contentLangs,
-              },
-            },
-          )
-        return fallbackData
-      }
 
-      return data
+      if (!data.recIdStr) {
+        logger.debug('getSuggestedUsersForSeeMore response missing recIdStr')
+      }
+      return {...data, recId: data.recIdStr}
     },
   })
 }
@@ -81,9 +68,11 @@ export function* findAllProfilesInQueryData(
   did: string,
 ): Generator<AppBskyActorDefs.ProfileView, void> {
   const responses =
-    queryClient.getQueriesData<AppBskyUnspeccedGetSuggestedUsers.OutputSchema>({
-      queryKey: [getSuggestedUsersQueryKeyRoot],
-    })
+    queryClient.getQueriesData<AppBskyUnspeccedGetSuggestedUsersForSeeMore.OutputSchema>(
+      {
+        queryKey: [getSuggestedUsersForSeeMoreQueryKeyRoot],
+      },
+    )
   for (const [_key, response] of responses) {
     if (!response) {
       continue
