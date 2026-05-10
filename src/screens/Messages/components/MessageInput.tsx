@@ -85,7 +85,6 @@ export function MessageInput({
       return
     }
     clearDraft()
-    void onSendMessage(message)
     playHaptic()
     setEmbed(undefined)
     setMessage('')
@@ -99,6 +98,10 @@ export function MessageInput({
         inputRef.current?.focus()
       }, 100)
     }
+
+    requestAnimationFrame(() => {
+      void onSendMessage(message)
+    })
   }, [
     needsEmailVerification,
     hasEmbed,
@@ -136,7 +139,8 @@ export function MessageInput({
     scrollEnabled: isInputScrollable.get(),
   }))
 
-  const submitDisabled = needsEmailVerification || message.trim().length === 0
+  const submitDisabled =
+    needsEmailVerification || (!hasEmbed && message.trim().length === 0)
 
   const blur = useCallback(() => {
     inputRef.current?.blur()

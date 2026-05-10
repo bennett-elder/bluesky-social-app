@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useMemo, useState} from 'react'
+import {useCallback, useEffect, useMemo, useRef, useState} from 'react'
 import {type LayoutChangeEvent, View} from 'react-native'
 import {useSafeAreaInsets} from 'react-native-safe-area-context'
 import {moderateProfile} from '@atproto/api'
@@ -18,6 +18,7 @@ import {type NativeStackScreenProps} from '@react-navigation/native-stack'
 import {RemoveScrollBar} from 'react-remove-scroll-bar'
 
 import {useNonReactiveCallback} from '#/lib/hooks/useNonReactiveCallback'
+import {useViewportZoomLock} from '#/lib/hooks/useViewportZoomLock'
 import {
   type CommonNavigatorParams,
   type NavigationProp,
@@ -48,8 +49,10 @@ import {Loader} from '#/components/Loader'
 import * as Prompt from '#/components/Prompt'
 import {Text} from '#/components/Typography'
 import {useAnalytics} from '#/analytics'
-import {IS_LIQUID_GLASS, IS_WEB} from '#/env'
+import {IS_INTERNAL, IS_LIQUID_GLASS, IS_WEB} from '#/env'
 import {ChatDisabled} from './components/ChatDisabled'
+import {ChatEnded} from './components/ChatEnded'
+import {ChatLocked} from './components/ChatLocked'
 
 type Props = NativeStackScreenProps<
   CommonNavigatorParams,
@@ -105,6 +108,8 @@ function Inner({convoId}: {convoId: string}) {
   const isFocused = useIsFocused()
   const {top: topInset} = useSafeAreaInsets()
   const {data: convoData} = useConvoQuery({convoId})
+
+  useViewportZoomLock({enabled: isFocused})
 
   const convo = convoData
     ? parseConvoView(convoData, currentAccount?.did)
@@ -259,6 +264,26 @@ function InnerReady({
 
   const header = <MessagesListHeader convo={convo} />
 
+  let footer: React.ReactNode = null
+  if (isDisabled) {
+    footer = <ChatDisabled />
+  } else if (convo && primaryMember && primaryMemberModeration?.blocked) {
+    footer = (
+      <MessagesListBlockedFooter
+        recipient={primaryMember}
+        convoId={convo.view.id}
+        hasMessages={hasMessages}
+        moderation={primaryMemberModeration}
+      />
+    )
+  } else if (convo?.kind === 'group') {
+    if (convo.details.lockStatus === 'locked') {
+      footer = <ChatLocked convo={convo} />
+    } else if (convo.details.lockStatus === 'locked-permanently') {
+      footer = <ChatEnded convo={convo} />
+    }
+  }
+
   return (
     <>
       {IS_LIQUID_GLASS ? (
@@ -277,22 +302,11 @@ function InnerReady({
           setHasScrolled={setHasScrolled}
           hasAcceptOverride={!!params.accept}
           transparentHeaderHeight={IS_LIQUID_GLASS ? headerHeight : 0}
-          footer={
-            isDisabled ? (
-              <ChatDisabled />
-            ) : convo && primaryMember && primaryMemberModeration?.blocked ? (
-              <MessagesListBlockedFooter
-                recipient={primaryMember}
-                convoId={convo.view.id}
-                hasMessages={hasMessages}
-                moderation={primaryMemberModeration}
-              />
-            ) : null
-          }
+          footer={footer}
         />
       )}
 
-      {convo?.kind === 'group' && <GroupChatGate />}
+      {!IS_INTERNAL && convo?.kind === 'group' && <GroupChatGate />}
     </>
   )
 }
@@ -316,7 +330,10 @@ function GroupChatGate() {
     ax.features.GroupChatsHasBeenReleased,
   )
 
+  const isAlreadyGoingBackRef = useRef(false)
   const onGoBack = () => {
+    if (isAlreadyGoingBackRef.current) return
+    isAlreadyGoingBackRef.current = true
     if (navigation.canGoBack()) {
       navigation.goBack()
     } else {
@@ -327,27 +344,29 @@ function GroupChatGate() {
   return (
     <Prompt.Outer
       control={groupChatGateDialogControl}
+      onClose={onGoBack}
       nativeOptions={{preventDismiss: true, preventExpansion: true}}
       testID="groupChatGateDialog">
       <Prompt.Content>
-        <View style={[a.w_full, a.align_center, a.py_2xl]}>
-          <Text style={{fontSize: 48}} emoji>
+        <View style={[a.w_full, a.align_center, a.py_3xl]}>
+          <Text style={{fontSize: 72}} emoji>
             🐴
           </Text>
         </View>
-        <Prompt.TitleText>
+        <Prompt.TitleText style={[a.text_center]}>
           {hasBeenReleased ? (
             <Trans>Group chats are now available</Trans>
           ) : (
             <Trans>Group chats are not yet available</Trans>
           )}
         </Prompt.TitleText>
-        <Prompt.DescriptionText>
+        <Prompt.DescriptionText style={[a.text_center]}>
           {hasBeenReleased ? (
             <Trans>Update your app to the latest version to join in!</Trans>
           ) : (
             <Trans>
-              This feature isn't available to you yet. Please check back later.
+              Hold your horses! This feature isn't available to you yet. Please
+              check back later.
             </Trans>
           )}
         </Prompt.DescriptionText>

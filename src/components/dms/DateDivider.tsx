@@ -4,7 +4,7 @@ import {Trans, useLingui} from '@lingui/react/macro'
 import {subDays} from 'date-fns'
 
 import {atoms as a, useTheme} from '#/alf'
-import {Text} from '../Typography'
+import {Text} from '#/components/Typography'
 import {localDateString} from './util'
 
 const timeFormatter = new Intl.DateTimeFormat(undefined, {
@@ -56,7 +56,7 @@ let DateDivider = ({date: dateStr}: {date: string}): React.ReactNode => {
   }
 
   return (
-    <View style={[a.w_full, a.my_sm]}>
+    <View style={[a.w_full, a.mt_md]}>
       <Text
         style={[
           a.text_xs,

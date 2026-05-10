@@ -4,6 +4,9 @@ import {EMOJI_REACTION_LIMIT} from '#/lib/constants'
 import {logger} from '#/logger'
 import * as bsky from '#/types/bsky'
 
+export const MESSAGE_GAP_THRESHOLD_MS = 60 * 60 * 1000
+export const CLUSTERED_MESSAGE_THRESHOLD_MS = 5 * 60 * 1000
+
 export function canBeMessaged(profile: bsky.profile.AnyProfileView) {
   switch (profile.associated?.chat?.allowIncoming) {
     case 'none':
@@ -68,13 +71,13 @@ export type DirectConvoMember = ChatBskyActorDefs.ProfileViewBasic & {
 export type ConvoWithDetails = {view: ChatBskyConvoDefs.ConvoView} & (
   | {
       kind: 'group'
-      details: ChatBskyConvoDefs.GroupConvo
-      primaryMember: GroupConvoMember // the owner
+      details: $Typed<ChatBskyConvoDefs.GroupConvo>
+      primaryMember?: GroupConvoMember // the owner - may have left, thus optional
       members: Array<GroupConvoMember>
     }
   | {
       kind: 'direct'
-      details: ChatBskyConvoDefs.DirectConvo
+      details: $Typed<ChatBskyConvoDefs.DirectConvo>
       primaryMember: DirectConvoMember // the other user
       members: Array<DirectConvoMember>
     }
@@ -110,14 +113,11 @@ export function parseConvoView(
           owner = member as GroupConvoMember
         }
       } else {
-        throw new Error(
+        logger.warn(
           'Expected a GroupConvoMember, got an unknown kind of member',
         )
+        return null
       }
-    }
-
-    if (!owner) {
-      throw new Error('No owner found in group convo')
     }
 
     return {
@@ -136,7 +136,8 @@ export function parseConvoView(
     const otherUser = convoView.members.find(m => m.did !== ownDid)
 
     if (!otherUser) {
-      throw new Error('No other user found in direct convo')
+      logger.warn('No other user found in direct convo')
+      return null
     }
 
     return {

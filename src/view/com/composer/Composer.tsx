@@ -95,7 +95,6 @@ import {
 } from '#/state/preferences/languages'
 import {usePreferencesQuery} from '#/state/queries/preferences'
 import {useProfileQuery} from '#/state/queries/profile'
-import {type Gif} from '#/state/queries/tenor'
 import {useAgent, useSession} from '#/state/session'
 import {useComposerControls} from '#/state/shell/composer'
 import {type ComposerOpts, type OnPostSuccessData} from '#/state/shell/composer'
@@ -135,6 +134,7 @@ import * as Toast from '#/components/Toast'
 import {Text} from '#/components/Typography'
 import {useAnalytics} from '#/analytics'
 import {IS_ANDROID, IS_IOS, IS_LIQUID_GLASS, IS_NATIVE, IS_WEB} from '#/env'
+import {type Gif} from '#/features/gifPicker/types'
 import {BottomSheetPortalProvider} from '../../../../modules/bottom-sheet'
 import {
   draftToComposerPosts,
@@ -266,6 +266,20 @@ export const ComposePost = ({
   const onSelectLanguage = () => {
     setAcceptedLanguageSuggestion(null)
     setReplyToLanguages([])
+  }
+
+  /**
+   * Timestamp (ms) of the last honored nudge from language detection.
+   * Used to rate-limit the pulse animation: we ignore back-to-back
+   * nudges that arrive within NUDGE_COOLDOWN_MS. Consumers key an effect
+   * on this value — it only changes when we actually want to re-pulse.
+   */
+  const [languageNudgeAt, setLanguageNudgeAt] = useState(0)
+  const onLanguageNudge = () => {
+    const now = Date.now()
+    // ignore back-to-back nudges within 10s; only update state (and
+    // therefore re-pulse) once the cooldown has elapsed
+    setLanguageNudgeAt(prev => (now - prev > 10_000 ? now : prev))
   }
 
   const [composerState, composerDispatch] = useReducer(
@@ -1146,6 +1160,7 @@ export const ComposePost = ({
         replyToLanguages={replyToLanguages}
         currentLanguages={currentLanguages}
         onAcceptSuggestedLanguage={setAcceptedLanguageSuggestion}
+        onNudge={onLanguageNudge}
       />
       <ComposerPills
         isReply={!!replyTo}
@@ -1169,6 +1184,7 @@ export const ComposePost = ({
         }}
         currentLanguages={currentLanguages}
         onSelectLanguage={onSelectLanguage}
+        languageNudgeAt={languageNudgeAt}
         openGallery={openGallery}
         textInputRef={textInputRef}
       />
@@ -1873,6 +1889,7 @@ function ComposerFooter({
   onAddPost,
   currentLanguages,
   onSelectLanguage,
+  languageNudgeAt,
   openGallery,
   textInputRef,
 }: {
@@ -1884,6 +1901,7 @@ function ComposerFooter({
   onAddPost: () => void
   currentLanguages: string[]
   onSelectLanguage?: (language: string) => void
+  languageNudgeAt: number
   openGallery?: boolean
   textInputRef: React.RefObject<TextInputRef | null>
 }) {
@@ -2049,6 +2067,7 @@ function ComposerFooter({
         <PostLanguageSelect
           currentLanguages={currentLanguages}
           onSelectLanguage={onSelectLanguage}
+          nudgeAt={languageNudgeAt}
         />
         <CharProgress
           count={post.shortenedGraphemeLength}

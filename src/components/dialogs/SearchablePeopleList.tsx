@@ -479,14 +479,15 @@ function ExistingChatCard({
   const {t: l} = useLingui()
   const enabled =
     convo.kind === 'group' ? convo.details.lockStatus === 'unlocked' : true
-  const moderation = moderateProfile(convo.primaryMember, moderationOpts)
   const name =
     convo.kind === 'group'
       ? convo.details.name
       : createSanitizedDisplayName(
           convo.primaryMember,
           true,
-          moderation.ui('displayName'),
+          moderateProfile(convo.primaryMember, moderationOpts).ui(
+            'displayName',
+          ),
         )
 
   const handleOnPress = useCallback(() => {
@@ -512,7 +513,7 @@ function ExistingChatCard({
           ]}>
           <ProfileCard.Header>
             {convo.kind === 'group' ? (
-              <AvatarBubbles profiles={convo.members} size="small" />
+              <AvatarBubbles profiles={convo.members} size={40} />
             ) : (
               <ProfileCard.Avatar
                 profile={convo.primaryMember}
