@@ -36,6 +36,18 @@ export function AltTextVideoEmbed({embed}: AltTextVideoEmbedProps) {
   const altTextFirstEnabled = useAltTextFirstEnabled()
   const [muted, setMuted] = useVideoMuteState()
 
+  let videoAspectRatio: number | undefined
+  const dims = embed.aspectRatio
+  if (dims) {
+    const ratio = dims.width / dims.height
+    if (!Number.isNaN(ratio)) {
+      videoAspectRatio = ratio
+    }
+  }
+  const mediaContainerStyle = videoAspectRatio
+    ? {aspectRatio: videoAspectRatio}
+    : {minHeight: 200}
+
   // Set initial state based on altTextFirstEnabled setting
   // When enabled: start collapsed (alt text only)
   // When disabled: start showing thumbnail (normal behavior)
@@ -170,10 +182,10 @@ export function AltTextVideoEmbed({embed}: AltTextVideoEmbedProps) {
         </Pressable>
 
         {/* Thumbnail with play button */}
-        <View style={[a.relative]}>
+        <View style={[a.relative, mediaContainerStyle]}>
           <Image
             source={{uri: embed.thumbnail}}
-            style={[a.w_full, {minHeight: 200}]}
+            style={[a.absolute, a.inset_0]}
             contentFit="contain"
             accessible={true}
             accessibilityLabel={embed.alt}
@@ -240,12 +252,12 @@ export function AltTextVideoEmbed({embed}: AltTextVideoEmbedProps) {
       </Pressable>
 
       {/* Video player */}
-      <View style={[a.relative]}>
+      <View style={[a.relative, mediaContainerStyle]}>
         <BlueskyVideoView
           url={embed.playlist}
           autoplay={!autoplayDisabled}
           beginMuted={isGif || (autoplayDisabled ? false : muted)}
-          style={[a.w_full, {minHeight: 200}]}
+          style={[a.absolute, a.inset_0]}
           onStatusChange={e => {
             setIsPlaying(e.nativeEvent.status === 'playing')
           }}
@@ -314,6 +326,13 @@ export function AltTextVideoEmbed({embed}: AltTextVideoEmbedProps) {
               <TimeIndicator time={timeRemaining} style={{left: 33}} />
             )}
 
+            <ControlButton
+              onPress={() => videoRef.current?.enterFullscreen(true)}
+              label={_(msg`Fullscreen`)}
+              accessibilityHint={_(msg`Opens the video in fullscreen`)}
+              style={{right: 33}}>
+              <ExpandIcon width={13} fill={t.palette.white} />
+            </ControlButton>
             <ControlButton
               onPress={toggleMuted}
               label={
