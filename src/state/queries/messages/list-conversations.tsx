@@ -29,8 +29,13 @@ export const RQKEY = (
   status: 'accepted' | 'request' | 'all',
   readState: 'all' | 'unread' = 'all',
   kind: 'all' | 'group' | 'direct' = 'all',
+  lockStatus:
+    | 'unlocked'
+    | 'locked'
+    | 'locked-permanently'
+    | undefined = undefined,
   limit?: number,
-) => [RQKEY_ROOT, status, readState, kind, limit]
+) => [RQKEY_ROOT, status, readState, kind, lockStatus, limit]
 type RQPageParam = string | undefined
 
 export function useListConvosQuery({
@@ -39,18 +44,20 @@ export function useListConvosQuery({
   readState = 'all',
   kind = 'all',
   limit = DEFAULT_LIMIT,
+  lockStatus,
 }: {
   enabled?: boolean
   status?: 'request' | 'accepted'
   readState?: 'all' | 'unread'
   kind?: 'all' | 'group' | 'direct'
   limit?: number
+  lockStatus?: 'unlocked' | 'locked' | 'locked-permanently'
 } = {}) {
   const agent = useAgent()
 
   return useInfiniteQuery({
     enabled,
-    queryKey: RQKEY(status ?? 'all', readState, kind, limit),
+    queryKey: RQKEY(status ?? 'all', readState, kind, lockStatus, limit),
     queryFn: async ({pageParam}) => {
       const {data} = await agent.chat.bsky.convo.listConvos(
         {
@@ -58,6 +65,7 @@ export function useListConvosQuery({
           cursor: pageParam,
           readState: readState === 'unread' ? 'unread' : undefined,
           kind: kind === 'all' ? undefined : kind,
+          lockStatus,
           status,
         },
         {headers: DM_SERVICE_HEADERS},
@@ -106,6 +114,7 @@ export function ListConvosProviderInner({
   const {refetch, data} = useListConvosQuery({
     readState: 'unread',
     limit: UNREAD_LIMIT,
+    lockStatus: 'unlocked',
   })
   const messagesBus = useMessagesEventBus()
   const queryClient = useQueryClient()
@@ -250,18 +259,26 @@ export function ListConvosProviderInner({
               queryClient.setQueriesData({queryKey: RQKEY('request')}, updateFn)
             }
           } else if (ChatBskyConvoDefs.isLogReadMessage(log)) {
-            const logRef: ChatBskyConvoDefs.LogReadMessage = log
             queryClient.setQueriesData(
               {queryKey: [RQKEY_ROOT]},
               (old?: ConvoListQueryData) =>
-                optimisticUpdate(logRef.convoId, old, convo => ({
+                optimisticUpdate(log.convoId, old, convo => ({
                   ...convo,
                   unreadCount: 0,
-                  rev: logRef.rev,
+                  rev: log.rev,
+                })),
+            )
+          } else if (ChatBskyConvoDefs.isLogReadConvo(log)) {
+            queryClient.setQueriesData(
+              {queryKey: [RQKEY_ROOT]},
+              (old?: ConvoListQueryData) =>
+                optimisticUpdate(log.convoId, old, convo => ({
+                  ...convo,
+                  unreadCount: 0,
+                  rev: log.rev,
                 })),
             )
           } else if (ChatBskyConvoDefs.isLogAcceptConvo(log)) {
-            const logRef: ChatBskyConvoDefs.LogAcceptConvo = log
             const requests = queryClient.getQueryData<ConvoListQueryData>(
               RQKEY('request'),
             )
@@ -276,8 +293,7 @@ export function ListConvosProviderInner({
             }
             queryClient.setQueryData(
               RQKEY('request'),
-              (old?: ConvoListQueryData) =>
-                optimisticDelete(logRef.convoId, old),
+              (old?: ConvoListQueryData) => optimisticDelete(log.convoId, old),
             )
             queryClient.setQueriesData(
               {queryKey: RQKEY('accepted')},
@@ -304,67 +320,141 @@ export function ListConvosProviderInner({
               },
             )
           } else if (ChatBskyConvoDefs.isLogMuteConvo(log)) {
-            const logRef: ChatBskyConvoDefs.LogMuteConvo = log
             queryClient.setQueriesData(
               {queryKey: [RQKEY_ROOT]},
               (old?: ConvoListQueryData) =>
-                optimisticUpdate(logRef.convoId, old, convo => ({
+                optimisticUpdate(log.convoId, old, convo => ({
                   ...convo,
                   muted: true,
-                  rev: logRef.rev,
+                  rev: log.rev,
                 })),
             )
           } else if (ChatBskyConvoDefs.isLogUnmuteConvo(log)) {
-            const logRef: ChatBskyConvoDefs.LogUnmuteConvo = log
             queryClient.setQueriesData(
               {queryKey: [RQKEY_ROOT]},
               (old?: ConvoListQueryData) =>
-                optimisticUpdate(logRef.convoId, old, convo => ({
+                optimisticUpdate(log.convoId, old, convo => ({
                   ...convo,
                   muted: false,
-                  rev: logRef.rev,
+                  rev: log.rev,
                 })),
             )
-          } else if (ChatBskyConvoDefs.isLogAddReaction(log)) {
-            const logRef: ChatBskyConvoDefs.LogAddReaction = log
+          } else if (ChatBskyConvoDefs.isLogLockConvo(log)) {
             queryClient.setQueriesData(
               {queryKey: [RQKEY_ROOT]},
               (old?: ConvoListQueryData) =>
-                optimisticUpdate(logRef.convoId, old, convo => ({
+                optimisticUpdate(log.convoId, old, convo => {
+                  if (ChatBskyConvoDefs.isGroupConvo(convo.kind)) {
+                    return {
+                      ...convo,
+                      kind: {
+                        ...convo.kind,
+                        lockStatus: 'locked',
+                      },
+                      rev: log.rev,
+                    }
+                  }
+                  return {
+                    ...convo,
+                    rev: log.rev,
+                  }
+                }),
+            )
+          } else if (ChatBskyConvoDefs.isLogUnlockConvo(log)) {
+            queryClient.setQueriesData(
+              {queryKey: [RQKEY_ROOT]},
+              (old?: ConvoListQueryData) =>
+                optimisticUpdate(log.convoId, old, convo => {
+                  if (ChatBskyConvoDefs.isGroupConvo(convo.kind)) {
+                    return {
+                      ...convo,
+                      kind: {
+                        ...convo.kind,
+                        lockStatus: 'unlocked',
+                      },
+                      rev: log.rev,
+                    }
+                  }
+                  return {
+                    ...convo,
+                    rev: log.rev,
+                  }
+                }),
+            )
+          } else if (ChatBskyConvoDefs.isLogLockConvoPermanently(log)) {
+            queryClient.setQueriesData(
+              {queryKey: [RQKEY_ROOT]},
+              (old?: ConvoListQueryData) =>
+                optimisticUpdate(log.convoId, old, convo => {
+                  if (ChatBskyConvoDefs.isGroupConvo(convo.kind)) {
+                    return {
+                      ...convo,
+                      kind: {
+                        ...convo.kind,
+                        lockStatus: 'locked-permanently',
+                      },
+                      rev: log.rev,
+                    }
+                  }
+                  return {
+                    ...convo,
+                    rev: log.rev,
+                  }
+                }),
+            )
+          } else if (
+            ChatBskyConvoDefs.isLogCreateJoinLink(log) ||
+            ChatBskyConvoDefs.isLogEditJoinLink(log) ||
+            ChatBskyConvoDefs.isLogEnableJoinLink(log) ||
+            ChatBskyConvoDefs.isLogDisableJoinLink(log)
+          ) {
+            // Join link data not included in the log event, trigger refetch to get it
+            debouncedRefetch()
+          } else if (
+            ChatBskyConvoDefs.isLogIncomingJoinRequest(log) ||
+            ChatBskyConvoDefs.isLogApproveJoinRequest(log) ||
+            ChatBskyConvoDefs.isLogRejectJoinRequest(log) ||
+            ChatBskyConvoDefs.isLogOutgoingJoinRequest(log)
+          ) {
+            // TODO Update join request count here when available. -dsb
+          } else if (ChatBskyConvoDefs.isLogAddReaction(log)) {
+            queryClient.setQueriesData(
+              {queryKey: [RQKEY_ROOT]},
+              (old?: ConvoListQueryData) =>
+                optimisticUpdate(log.convoId, old, convo => ({
                   ...convo,
                   lastReaction: {
                     $type: 'chat.bsky.convo.defs#messageAndReactionView',
-                    reaction: logRef.reaction,
-                    message: logRef.message,
+                    reaction: log.reaction,
+                    message: log.message,
                   },
-                  rev: logRef.rev,
+                  rev: log.rev,
                 })),
             )
           } else if (ChatBskyConvoDefs.isLogRemoveReaction(log)) {
-            const logRef: ChatBskyConvoDefs.LogRemoveReaction = log
             queryClient.setQueriesData(
               {queryKey: [RQKEY_ROOT]},
               (old?: ConvoListQueryData) =>
-                optimisticUpdate(logRef.convoId, old, convo => {
+                optimisticUpdate(log.convoId, old, convo => {
                   if (
                     // if the convo is the same
-                    logRef.convoId === convo.id &&
+                    log.convoId === convo.id &&
                     ChatBskyConvoDefs.isMessageAndReactionView(
                       convo.lastReaction,
                     ) &&
-                    ChatBskyConvoDefs.isMessageView(logRef.message) &&
+                    ChatBskyConvoDefs.isMessageView(log.message) &&
                     // ...and the message is the same
-                    convo.lastReaction.message.id === logRef.message.id &&
+                    convo.lastReaction.message.id === log.message.id &&
                     // ...and the reaction is the same
                     convo.lastReaction.reaction.sender.did ===
-                      logRef.reaction.sender.did &&
-                    convo.lastReaction.reaction.value === logRef.reaction.value
+                      log.reaction.sender.did &&
+                    convo.lastReaction.reaction.value === log.reaction.value
                   ) {
                     return {
                       ...convo,
                       // ...remove the reaction. hopefully they didn't react twice in a row!
                       lastReaction: undefined,
-                      rev: logRef.rev,
+                      rev: log.rev,
                     }
                   } else {
                     return convo

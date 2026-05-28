@@ -24,11 +24,6 @@
       "count": 5
     }
   },
-  "src/components/Button.tsx": {
-    "@typescript-eslint/no-explicit-any": {
-      "count": 2
-    }
-  },
   "src/components/Composer/index.tsx": {
     "@typescript-eslint/no-explicit-any": {
       "count": 2
@@ -62,11 +57,6 @@
   "src/components/InternationalPhoneCodeSelect.tsx": {
     "@typescript-eslint/no-explicit-any": {
       "count": 1
-    }
-  },
-  "src/components/Layout/const.ts": {
-    "@typescript-eslint/no-explicit-any": {
-      "count": 2
     }
   },
   "src/components/Lists.tsx": {
@@ -152,6 +142,9 @@
   "src/components/dialogs/PostInteractionSettingsDialog.tsx": {
     "@typescript-eslint/no-explicit-any": {
       "count": 2
+    },
+    "react-hooks/preserve-manual-memoization": {
+      "count": 1
     }
   },
   "src/components/dialogs/lists/CreateOrEditListDialog.tsx": {
@@ -209,11 +202,6 @@
       "count": 2
     }
   },
-  "src/components/moderation/ReportDialog/index.tsx": {
-    "@typescript-eslint/no-explicit-any": {
-      "count": 1
-    }
-  },
   "src/features/liveNow/index.tsx": {
     "@typescript-eslint/no-explicit-any": {
       "count": 3
@@ -260,11 +248,6 @@
     }
   },
   "src/lib/hooks/useAccountSwitcher.ts": {
-    "@typescript-eslint/no-explicit-any": {
-      "count": 1
-    }
-  },
-  "src/lib/hooks/useCleanError.ts": {
     "@typescript-eslint/no-explicit-any": {
       "count": 1
     }
@@ -407,6 +390,9 @@
   "src/screens/PostThread/index.tsx": {
     "@typescript-eslint/no-explicit-any": {
       "count": 2
+    },
+    "react-hooks/preserve-manual-memoization": {
+      "count": 1
     }
   },
   "src/screens/Profile/Header/EditProfileDialog.tsx": {
@@ -552,6 +538,9 @@
   "src/view/com/composer/Composer.tsx": {
     "@typescript-eslint/no-explicit-any": {
       "count": 2
+    },
+    "react-hooks/preserve-manual-memoization": {
+      "count": 3
     }
   },
   "src/view/com/composer/drafts/state/queries.ts": {
@@ -602,6 +591,11 @@
   "src/view/com/pager/Pager.tsx": {
     "@typescript-eslint/no-explicit-any": {
       "count": 4
+    }
+  },
+  "src/view/com/pager/Pager.web.tsx": {
+    "react-hooks/preserve-manual-memoization": {
+      "count": 1
     }
   },
   "src/view/com/pager/PagerWithHeader.tsx": {
@@ -664,16 +658,6 @@
       "count": 2
     }
   },
-  "src/view/com/util/List.tsx": {
-    "@typescript-eslint/no-explicit-any": {
-      "count": 2
-    }
-  },
-  "src/view/com/util/List.web.tsx": {
-    "@typescript-eslint/no-explicit-any": {
-      "count": 14
-    }
-  },
   "src/view/com/util/MainScrollProvider.tsx": {
     "@typescript-eslint/no-explicit-any": {
       "count": 2
@@ -690,11 +674,6 @@
     }
   },
   "src/view/screens/Debug.tsx": {
-    "@typescript-eslint/no-explicit-any": {
-      "count": 1
-    }
-  },
-  "src/view/screens/DebugMod.tsx": {
     "@typescript-eslint/no-explicit-any": {
       "count": 1
     }

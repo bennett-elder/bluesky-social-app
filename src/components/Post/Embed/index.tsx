@@ -22,6 +22,8 @@ import {useInteractionState} from '#/components/hooks/useInteractionState'
 import {GalleryBleed} from '#/components/images/Gallery'
 import {ContentHider} from '#/components/moderation/ContentHider'
 import {PostAlerts} from '#/components/moderation/PostAlerts'
+import {StandardSiteEmbed} from '#/components/Post/Embed/StandardSiteEmbed'
+import {isStandardSiteEmbed} from '#/components/Post/Embed/StandardSiteEmbed/utils'
 import {RichText} from '#/components/RichText'
 import {Embed as StarterPackCard} from '#/components/StarterPack/StarterPackCard'
 import {SubtleHover} from '#/components/SubtleHover'
@@ -84,21 +86,55 @@ function MediaEmbed({
 }: CommonProps & {
   embed: TEmbed
 }) {
-  return (
-    <ContentHider
-      modui={rest.moderation?.ui('contentMedia')}
-      activeStyle={[a.mt_sm]}>
-      {embed.type === 'images' && <ImageEmbed embed={embed} {...rest} />}
-      {embed.type === 'link' && (
-        <ExternalEmbed
-          link={embed.view.external}
-          onOpen={rest.onOpen}
-          style={[a.mt_sm, rest.style]}
-        />
-      )}
-      {embed.type === 'video' && <VideoEmbed embed={embed.view} />}
-    </ContentHider>
-  )
+  switch (embed.type) {
+    case 'images': {
+      return (
+        <ContentHider
+          modui={rest.moderation?.ui('contentMedia')}
+          activeStyle={[a.mt_sm]}>
+          <ImageEmbed embed={embed} {...rest} />
+        </ContentHider>
+      )
+    }
+    case 'link': {
+      if (isStandardSiteEmbed(embed.view.external)) {
+        return (
+          <ContentHider
+            modui={rest.moderation?.ui('contentMedia')}
+            activeStyle={[a.mt_sm]}>
+            <StandardSiteEmbed
+              view={embed.view.external}
+              onEmbedInteractionCallback={rest.onOpen}
+              style={[a.mt_sm, rest.style]}
+            />
+          </ContentHider>
+        )
+      }
+      return (
+        <ContentHider
+          modui={rest.moderation?.ui('contentMedia')}
+          activeStyle={[a.mt_sm]}>
+          <ExternalEmbed
+            link={embed.view.external}
+            onOpen={rest.onOpen}
+            style={[a.mt_sm, rest.style]}
+          />
+        </ContentHider>
+      )
+    }
+    case 'video': {
+      return (
+        <ContentHider
+          modui={rest.moderation?.ui('contentMedia')}
+          activeStyle={[a.mt_sm]}>
+          <VideoEmbed embed={embed.view} />
+        </ContentHider>
+      )
+    }
+    default: {
+      return null
+    }
+  }
 }
 
 function RecordEmbed({
