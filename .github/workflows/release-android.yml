@@ -18,15 +18,17 @@ jobs:
       cancel-in-progress: false
     steps:
       - name: ⬇️ Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 5
+
+      - uses: pnpm/action-setup@v6
 
       - name: 🔧 Setup Node
         uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
-          cache: yarn
+          cache: pnpm
 
       - name: 🪛 Setup jq
         uses: dcarbone/install-jq-action@v2
@@ -37,10 +39,10 @@ jobs:
           java-version: "17"
 
       - name: ⚙️ Install dependencies
-        run: yarn install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: 🔤 Compile translations
-        run: yarn intl:build 2>&1 | tee i18n.log
+        run: pnpm intl:build 2>&1 | tee i18n.log
 
       - name: Check for i18n compilation errors
         run: if grep -q "invalid syntax" "i18n.log"; then echo "Found compilation errors!" && exit 1; else echo "No compilation errors!"; fi
